@@ -1,8 +1,16 @@
 const UserModel = require('../model/UserModel')
+const sql = require('./sql')
 const UserCtrl = {
     select_adminstrator: (req, res) => {
-        UserModel.test(req, res,
-            'select a_number,a_password,a_name from adminstrator where a_number=?', [req.body.username])
+        function callback(data) {
+            if (req.body.username == data.a_number && req.body.password == data.a_password) {
+                res.send('1');
+            }
+            else {
+                res.send('0');
+            }
+        }
+        UserModel.test(req, res,sql.select_adminstrator.sql, [req.body.username],callback)
     }
 }
 
