@@ -17,27 +17,27 @@
             </div>
         </el-header>
         <el-container class="body">
-            <el-aside style="background-color: #00C5CF" width="200px">
-                <el-menu style="border-width:0px" router background-color="#00C5CF" text-color="#fff" default-active="2" class="el-menu-vertical-demo">
+            <el-aside style="background-color: #00C5CF" width="260px">
+                <el-menu style="border-width:0px" unique-opened router background-color="#00C5CF" text-color="#fff"  class="el-menu-vertical-demo">
                     <el-submenu index="1">
                         <template slot="title">
                             <i style="color:white" class="el-icon-menu"></i>
-                            <span>面试官资料</span>
+                            <span>活动</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="1-1">全部面试官</el-menu-item>
-                            <el-menu-item index="1-2">申请</el-menu-item>
-                            <el-menu-item index="1-3">已通过</el-menu-item>
+                            <el-menu-item index="1-1" :route="{ path:'/home'}">全部活动</el-menu-item>
+                            <el-menu-item index="1-2" :route="{ path:'/createAction'}">创建活动</el-menu-item>
                         </el-menu-item-group>
-                        <el-submenu index="1-4">
-                            <template slot="title">选项4</template>
-                            <el-menu-item index="1-4-1">选项1</el-menu-item>
-                        </el-submenu>
                     </el-submenu>
-                    <el-menu-item index="2">
-                        <i style="color:white" class="el-icon-menu"></i>
-                        <span slot="title" style="color:white">导航二</span>
-                    </el-menu-item>
+                    <el-submenu index="2">
+                        <template slot="title">
+                            <i style="color:white" class="el-icon-menu"></i>
+                            <span>面试</span>
+                        </template>
+                        <el-menu-item-group>
+                            <el-menu-item index="2-1" :route="{ path:'/interview'}">参与者</el-menu-item>
+                        </el-menu-item-group>
+                    </el-submenu>
                     <el-menu-item index="3">
                         <i style="color:white" class="el-icon-setting"></i>
                         <span slot="title">导航四</span>
@@ -45,38 +45,7 @@
                 </el-menu>
             </el-aside>
             <el-main class="textbody">
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
-                <p>132</p>
+                <router-view />
             </el-main>
         </el-container>
     </el-container>   
@@ -84,7 +53,25 @@
 
 <script>
 export default {
-     methods: {
+    data(){
+        return {
+            a:2
+        }
+    },
+    created(){
+        var data={
+            date:new Date()
+        }
+        console.log(data);
+        this.$axios({
+            url:'http://localhost:3000/api/user/get_action',
+            method:'post',
+            data:data
+        }).then((res)=>{
+            console.log(res.data);
+        }).catch((res)=>{
+            console.log(res.data);
+        })
     }
 }
 </script>
@@ -103,10 +90,11 @@ scroll(color)
     position fixed
     height 100%
     width 100%
-    margin-top 60px
+    padding-top 60px
     scroll(#aaa)
     .textbody
         background-color #E6E6E6
+        padding 30px 30px
 .header
     background-color #4B4B4B
     opacity 0.9

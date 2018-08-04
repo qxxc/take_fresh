@@ -10,7 +10,7 @@ const UserModel = {
                     if (err) {
                         console.error(err);
                     } else {
-                        callback(data[0]);
+                        callback(req,res,data);
                         connection.release();
                     }
                 })
