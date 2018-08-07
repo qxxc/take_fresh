@@ -8,7 +8,8 @@ const UserModel = {
             } else {
                 connection.query(sql,Array,function (err, data) {
                     if (err) {
-                        console.error(err);
+                        console.log(err);
+                        res.send('0');
                     } else {
                         callback(req,res,data);
                         connection.release();

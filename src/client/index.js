@@ -5,7 +5,8 @@ import App from './App.vue';
 import router from './router/router'
 import store from './store/store'
 import axios from 'axios'
-
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts 
 Vue.use(ElementUI);
 
 Vue.config.debug = true

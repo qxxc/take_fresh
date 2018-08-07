@@ -36,56 +36,60 @@ export default {
     methods: {
         onSubmit() {
             var obj=this;
-            //obj.form.date1=new Date((+obj.form.date1+1000*60*60*24))
-            this.$confirm('是否直接开启此次活动?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                obj.form.date1=new Date();
-                obj.form.A_status=1;
-                this.$axios({
-                    url:'http://localhost:3000/api/user/insert_action',
-                    method:'post',
-                    data:obj.form
-                }).then((res)=>{
-                    if(res.data=='1'){
-                        obj.$message({
-                            message:'添加成功',
-                            type:'success'
-                        })
-                    }else{
-                        obj.$message.error('添加失败')
-                    }
-                    for (var i in obj.form) {
-                        obj.form[i]=''
-                    }
-                }).catch((res)=>{
-                    console.log(res)
-                })
-            }).catch(() => {
-                obj.form.A_status=0;
-                this.$axios({
-                    url:'http://localhost:3000/api/user/insert_action',
-                    method:'post',
-                    data:obj.form
-                }).then((res)=>{
-                    if(res.data=='1'){
-                        obj.$message({
-                            message:'添加成功',
-                            type:'success'
-                        })
-                    }else{
-                        obj.$message.error('添加失败')
-                    }
-                    for (var i in obj.form) {
-                        obj.form[i]=''
-                    }
-                }).catch((res)=>{
-                    console.log(res)
-                })        
-            });
-            
+            var date=new Date();
+            console.log(date.getMonth());
+            if( ( date.getMonth()+1 >=8 && obj.form.A_term==date.getFullYear() ) || (date.getMonth()+1<=5 && obj.form.A_term==(date.getFullYear()-1))){
+                this.$confirm('是否直接开启此次活动?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    obj.form.date1=new Date();
+                    obj.form.A_status=1;
+                    this.$axios({
+                        url:'http://localhost:3000/api/user/insert_action',
+                        method:'post',
+                        data:obj.form
+                    }).then((res)=>{
+                        if(res.data=='1'){
+                            obj.$message({
+                                message:'添加成功',
+                                type:'success'
+                            })
+                        }else{
+                            obj.$message.error('添加失败(活动已存在)')
+                        }
+                        for (var i in obj.form) {
+                            obj.form[i]=''
+                        }
+                    }).catch((res)=>{
+                        console.log(res)
+                    })
+                }).catch(() => {
+                    obj.form.A_status=0;
+                    this.$axios({
+                        url:'http://localhost:3000/api/user/insert_action',
+                        method:'post',
+                        data:obj.form
+                    }).then((res)=>{
+                        if(res.data=='1'){
+                            obj.$message({
+                                message:'添加成功',
+                                type:'success'
+                            })
+                        }else{
+                            obj.$message.error('添加失败')
+                        }
+                        for (var i in obj.form) {
+                            obj.form[i]=''
+                        }
+                    }).catch((res)=>{
+                        console.log(res)
+                    })        
+                });
+            }else{
+                this.$message.error("未在本届纳新活动期间");
+            }
         }
     }
 }

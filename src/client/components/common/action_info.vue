@@ -36,12 +36,11 @@
                             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">结束</el-button>
                         </div>
                         <div v-else>
-                            <el-button size="mini">查看</el-button>
+                            <el-button size="mini" @click="see(scope.$index, scope.row)">查看</el-button>
                         </div>
                     </template>
                 </el-table-column>
             </el-table>
-            {{tableData}}
         </div>
     </div>
 </template>
@@ -54,6 +53,9 @@ export default {
         }
     },
     methods:{
+        see(index,row){
+            this.$router.push({path:'/a',query:{id:row.A_term}});
+        },
         handleEdit(index, row) {
             var obj=this;
             if(row.A_status_name=='进行中'){
@@ -75,8 +77,10 @@ export default {
                             message:'开启成功',
                             type:'success'
                         })
+                        row.A_status_name=='进行中';
+                        row.A_start_date=data.date1.getFullYear()+'-'+data.date1.getMonth()+'-'+data.date1.getDate()
                     }else{
-                        obj.$message.error('开启失败')
+                        obj.$message.error('开启活动失败')
                     }
                 }).catch((res)=>{
                     console.log(res);
@@ -84,7 +88,36 @@ export default {
             }
         },
         handleDelete(index, row) {
-            console.log(1);
+            var obj=this;
+            if(row.A_status_name=='未开始'){
+                this.$message.error("活动尚未开始")
+            }else{
+                var data={
+                    A_id:row.A_id,
+                    date1:new Date(),
+                    A_status:2
+                }
+                console.log(data);
+                this.$axios({
+                    url:'http://localhost:3000/api/user/end_action',
+                    method:'post',
+                    data:data
+                }).then((res)=>{
+                    if(res.data=='1'){
+                        obj.$message({
+                            message:'结束成功',
+                            type:'success'
+                        })
+                        row.A_status_name='已结束';
+                        row.A_status_action=false;
+                        row.A_end_date=data.date1.getFullYear()+'-'+(data.date1.getMonth()+1)+'-'+data.date1.getDate()
+                    }else{
+                        obj.$message.error('结束活动失败')
+                    }
+                }).catch((res)=>{
+                    console.log(res);
+                })
+            }
         }
     },
     created(){

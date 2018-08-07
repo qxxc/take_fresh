@@ -12,6 +12,13 @@ module.exports={
             res.send('1')
         }
     },
+    getAllUser:{
+        sql:'select user.u_name,group.g_name from user  left join `group`  on user.u_group=group.g_id',
+        callback(req,res,data){
+            res.send(data);
+            console.log(data);
+        }
+    },
     insertAction: {
         sql: 'insert action(A_number,A_adminstrator,A_term,A_status) values(?,?,?,?)',
         callback(req, res, data) {
@@ -20,6 +27,12 @@ module.exports={
     },
     beginAction:{
         sql:'update action set A_start_date=?,A_status=? where A_id=?',
+        callback(req, res, data) {
+            res.send('1')
+        }
+    },
+    endAction: {
+        sql: 'update action set A_end_date=?,A_status=? where A_id=?',
         callback(req, res, data) {
             res.send('1')
         }

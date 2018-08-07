@@ -21,11 +21,17 @@ UserRouter
     .post('/begin_action',(req,res)=>{
         UserController.beginAction(req,res);
     })
+    .post('/end_action', (req, res) => {
+        UserController.endAction(req, res);
+    })
     .get('/get_inter',(req,res)=>{
         UserController.getInter(req,res)
     })
     .post('/delete_inter', (req, res) => {
         UserController.deleteInter(req, res)
+    })
+    .post('/get_allUser',(req,res)=>{
+        UserController.getAllUser(req,res);
     })
     .post((req, res) => {
         res.send('post')

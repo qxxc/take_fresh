@@ -21,6 +21,16 @@ const UserCtrl = {
             [req.body.date1, req.body.A_status, req.body.A_id],
             sql.beginAction.callback)
     },
+    endAction: (req, res) => {
+        UserModel.test(req, res, sql.endAction.sql,
+            [req.body.date1, req.body.A_status, req.body.A_id],
+            sql.endAction.callback)
+    },
+    getAllUser: (req, res) => {
+        UserModel.test(req, res, sql.getAllUser.sql,[],
+            // [req.body.date1, req.body.A_status, req.body.A_id],
+            sql.getAllUser.callback)
+    },
     selectAction: (req,res)=>{
         UserModel.test(req,res,sql.selectAction.sql,[],sql.selectAction.callback)
     },

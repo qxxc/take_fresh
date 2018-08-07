@@ -93,6 +93,7 @@ scroll(color)
     padding-top 60px
     scroll(#aaa)
     .textbody
+        position relative
         background-color #E6E6E6
         padding 30px 30px
 .header
