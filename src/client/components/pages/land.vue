@@ -36,11 +36,13 @@ export default {
                 url:'http://localhost:3000/api/user/select_admin',
                 data:data
             }).then((res)=>{
-                console.log(res.data);
-                if(res.data=='1'){
+                if(res.data!='0'&&res.data!='-1'){
                     go.$router.push('/home');
-                }else{
-                    alert('Error')
+                    sessionStorage.setItem("id",res.data);
+                }else if(res.data=='0'){
+                    this.$message.error('密码错误'); 
+                }else if(res.data=='-1'){
+                    this.$message.error('您已无权登陆');  
                 }
             }).catch((res)=>{
                 console.log(res);

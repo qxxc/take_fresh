@@ -5,13 +5,13 @@
                 <i class="iconfont icon-Crate">ACAT</i>
             </div>
             <div class="right">
-                <el-dropdown :show-timeout='150'>
+                <el-dropdown :show-timeout='150' @command="handleCommand">
                     <span class="el-dropdown-link" style="color:white">
                         <i class="iconfont icon-gerenxinxi"></i><i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
-                    <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>个人信息</el-dropdown-item>
-                        <el-dropdown-item>注销</el-dropdown-item>
+                    <el-dropdown-menu slot="dropdown" >
+                        <el-dropdown-item command="a">个人信息</el-dropdown-item>
+                        <el-dropdown-item command="b">注销</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
             </div>
@@ -36,11 +36,12 @@
                         </template>
                         <el-menu-item-group>
                             <el-menu-item index="2-1" :route="{ path:'/interview'}">参与者</el-menu-item>
+                            <el-menu-item index="2-2" :route="{ path:'/interview_apply'}">参与者申请</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
-                    <el-menu-item index="3">
+                    <el-menu-item index="3" :route="{ path:'/next' }">
                         <i style="color:white" class="el-icon-setting"></i>
-                        <span slot="title">导航四</span>
+                        <span slot="title">传承</span>
                     </el-menu-item>
                 </el-menu>
             </el-aside>
@@ -72,6 +73,20 @@ export default {
         }).catch((res)=>{
             console.log(res.data);
         })
+    },
+    methods:{
+        handleCommand(command){
+            switch (command) {
+                case 'a':
+                    this.$router.push({path:'/_info'})
+                    break;
+                case 'b':
+                    sessionStorage.clear();
+                    this.$router.push({path:'/'})
+                    console.log('2')
+                    break;
+            }
+        }
     }
 }
 </script>
@@ -90,7 +105,7 @@ scroll(color)
     position fixed
     height 100%
     width 100%
-    padding-top 60px
+    margin-top 60px
     scroll(#aaa)
     .textbody
         position relative
@@ -104,6 +119,7 @@ scroll(color)
     .right
         float right
         margin-top 20px
+        z-index 99
         cursor pointer
         margin-right 10px
         .icon-gerenxinxi

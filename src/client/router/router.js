@@ -7,6 +7,9 @@ import interViewInfo from "./../components/common/interview_info.vue";
 import createAction from "./../components/common/create_action.vue";
 import actionInfo from "./../components/common/action_info.vue";
 import a from "./../components/common/a.vue";
+import interview_apply from "./../components/common/interview_apply.vue";
+import next from "./../components/common/next.vue";
+import _info from "./../components/common/_info.vue";
 
 Vue.use(Router)
 
@@ -18,8 +21,11 @@ var router = new Router({
       { path: '/', component: actionInfo},
       { path: '/createAction', component: createAction},
       { path: '/interview', component:interViewInfo },
-      { path: '/a', component:a }
-    ]}
+      { path: '/a', component:a },
+      { path: '/interview_apply', component: interview_apply },
+      { path: '/next', component: next },
+      { path: '/_info', component: _info },
+    ]},
   ]
 })
 

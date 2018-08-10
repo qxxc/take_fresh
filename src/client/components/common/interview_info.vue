@@ -19,12 +19,16 @@
                 </el-table-column>
                 <el-table-column label="组别" width="180">
                     <template slot-scope="scope">
-                        <span style="margin-left: -10px;">{{ scope.row.group }}</span>
+                        <span>{{ scope.row.g_name }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="学年" width="180">
+                    <template slot-scope="scope">
+                        <span >{{ scope.row.I_term }}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-button style="margin-left:-10px" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                         <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -41,22 +45,6 @@ export default {
             url:'http://localhost:3000/api/user/get_inter',
             method:'get',
         }).then((res)=>{
-            res.data.map((item,index,input)=>{
-                switch(item.I_group){
-                    case 1:
-                        item.group='web前端';
-                        break;
-                    case 2:
-                        item.group='php';
-                        break;  
-                    case 3:
-                        item.group='JAVA';
-                        break;  
-                    case 4:
-                        item.group='python';
-                        break;   
-                }
-            })
             obj.tableData=res.data
         }).catch((res)=>{
             console.log(res.data);

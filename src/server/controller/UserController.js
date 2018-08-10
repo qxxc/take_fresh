@@ -16,6 +16,30 @@ const UserCtrl = {
             [obj.A_number, obj.A_adminstrator, obj.A_term, obj.A_status], 
             sql.insertAction.callback)
     },
+    getAdminInfo:(req,res)=>{
+        UserModel.test(req, res, sql.getAdminInfo.sql, [req.body.id], sql.getAdminInfo.callback);
+    },
+    updateAdminInfo:(req,res)=>{
+        var sql ='update adminstrator set ';
+        var array=[];
+        var count=0;
+        for (var i in req.body) {
+            if(req.body[i]){
+                count++
+            }
+        }
+        for (i in req.body) {
+            if(i!='a_id'){
+                sql+=i+'=?,'
+            }
+            array.push(req.body[i])
+        }
+        sql = sql.substring(0, sql.length - 1)
+        sql+=' where a_id=?'
+        UserModel.test(req,res,sql,array,(req,res,data)=>{
+            res.send('1')
+        })
+    },
     beginAction:(req,res)=>{
         UserModel.test(req, res, sql.beginAction.sql,
             [req.body.date1, req.body.A_status, req.body.A_id],
@@ -27,9 +51,31 @@ const UserCtrl = {
             sql.endAction.callback)
     },
     getAllUser: (req, res) => {
-        UserModel.test(req, res, sql.getAllUser.sql,[],
+        UserModel.test(req, res, sql.getAllUser.sql,[req.body.trem],
             // [req.body.date1, req.body.A_status, req.body.A_id],
             sql.getAllUser.callback)
+    },
+    changIStatus:(req,res)=>{
+        var array=req.body;
+        var callback = sql.changIStatus.callback(req, res);
+        array.forEach(row=>{
+            UserModel.test(req, res, sql.changIStatus.sql, [row.status, row.id], callback )
+        })
+        
+    },
+    insertAdmin:(req,res)=>{
+        if (req.body.term<2018){
+            res.send('填写正确的学年')
+        }else{
+            async function inherit(req,res){
+                await UserModel.test(req, res, sql.changaStatus.sql, [req.body.a_id], sql.changaStatus.callback)
+                await UserModel.test(req, res, sql.insertAdmin.sql, [req.body.num, req.body.pass, req.body.name, req.body.term, req.body.tel], sql.insertAdmin.callback)
+            }
+            inherit(req,res).then(val=>{console.log(val)}).catch(err=>{console.log(err)});
+        }
+    },
+    getInterApply:(req,res)=>{
+        UserModel.test(req, res, sql.getInterApply.sql, [], sql.getInterApply.callback)
     },
     selectAction: (req,res)=>{
         UserModel.test(req,res,sql.selectAction.sql,[],sql.selectAction.callback)

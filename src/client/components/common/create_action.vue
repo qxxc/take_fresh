@@ -3,6 +3,7 @@
         <p style="font-size:25px;">创建一个新的活动</p>
         <div class="body">
             <div>
+                <p style="font-size:20px;margin-left:35px">负责人资料</p>
                 <el-form ref="form" style="width:300px" :model="form" label-width="80px">
                     <el-form-item label="学号">
                         <el-input v-model="form.A_number"></el-input>

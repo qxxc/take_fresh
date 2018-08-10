@@ -5,7 +5,7 @@
         </div>
         <div>
             <el-table :data="tableData"  style="width: 100%">
-                <el-table-column label="创始人" width="150">
+                <el-table-column label="负责人" width="150">
                     <template slot-scope="scope">
                         <div slot="reference" class="name-wrapper">
                             <el-tag size="medium">{{ scope.row.A_adminstrator }}</el-tag>
@@ -77,8 +77,8 @@ export default {
                             message:'开启成功',
                             type:'success'
                         })
-                        row.A_status_name=='进行中';
-                        row.A_start_date=data.date1.getFullYear()+'-'+data.date1.getMonth()+'-'+data.date1.getDate()
+                        row.A_status_name='进行中';
+                        row.A_start_date=data.date1.getFullYear()+'-'+(data.date1.getMonth()+1)+'-'+data.date1.getDate()
                     }else{
                         obj.$message.error('开启活动失败')
                     }
