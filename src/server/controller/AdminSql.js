@@ -2,9 +2,14 @@ module.exports={
     select_adminstrator:{
         sql: 'select a_id,a_number,a_password,a_name,a_status from adminstrator where a_number=?',
         callback(req, res, data) {
-            if (req.body.username == data[0].a_number && req.body.password == data[0].a_password && data[0].a_status == 0) { res.send(data[0].a_id+''); }
-            else if (req.body.username == data[0].a_number && data[0].a_status == 1){ res.send('-1'); }
-            else{ res.send('0')}
+            if(data.length){
+                if (req.body.username == data[0].a_number && req.body.password == data[0].a_password && data[0].a_status == 0) { res.send(data[0].a_id+''); }
+                else if (req.body.username == data[0].a_number && data[0].a_status == 1){ res.send('-1'); }
+                else{ res.send('0')}
+            }
+            else{
+                res.send('0')
+            }
         }
     }, 
     insertActionDate: {

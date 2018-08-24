@@ -25,8 +25,8 @@
                             <span>活动</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="1-1" :route="{ path:'/home'}">全部活动</el-menu-item>
-                            <el-menu-item index="1-2" :route="{ path:'/createAction'}">创建活动</el-menu-item>
+                            <el-menu-item index="1-1" :route="{ path:'/admin/home'}">全部活动</el-menu-item>
+                            <el-menu-item index="1-2" :route="{ path:'/admin/home/createAction'}">创建活动</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
                     <el-submenu index="2">
@@ -35,11 +35,11 @@
                             <span>面试</span>
                         </template>
                         <el-menu-item-group>
-                            <el-menu-item index="2-1" :route="{ path:'/interview'}">参与者</el-menu-item>
-                            <el-menu-item index="2-2" :route="{ path:'/interview_apply'}">参与者申请</el-menu-item>
+                            <el-menu-item index="2-1" :route="{ path:'/admin/home/interview'}">参与者</el-menu-item>
+                            <el-menu-item index="2-2" :route="{ path:'/admin/home/interview_apply'}">参与者申请</el-menu-item>
                         </el-menu-item-group>
                     </el-submenu>
-                    <el-menu-item index="3" :route="{ path:'/next' }">
+                    <el-menu-item index="3" :route="{ path:'/admin/home/next' }">
                         <i style="color:white" class="el-icon-setting"></i>
                         <span slot="title">传承</span>
                     </el-menu-item>
@@ -65,7 +65,7 @@ export default {
         }
         console.log(data);
         this.$axios({
-            url:'http://localhost:3000/api/user/get_action',
+            url:'http://localhost:3000/api/Admin/get_action',
             method:'post',
             data:data
         }).then((res)=>{
@@ -78,11 +78,11 @@ export default {
         handleCommand(command){
             switch (command) {
                 case 'a':
-                    this.$router.push({path:'/_info'})
+                    this.$router.push({path:'/admin/home/_info'})
                     break;
                 case 'b':
                     sessionStorage.clear();
-                    this.$router.push({path:'/'})
+                    this.$router.push({path:'/admin'})
                     console.log('2')
                     break;
             }

@@ -35,7 +35,7 @@ export default {
   },
   mounted(){
     this.$axios({
-      url:"http://localhost:3000/api/user/get_allUser",
+      url:"http://localhost:3000/api/Admin/get_allUser",
       method:'post',
       data:{trem:this.$route.query.id}
     }).then((res)=>{

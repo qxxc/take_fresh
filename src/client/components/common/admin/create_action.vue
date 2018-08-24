@@ -48,7 +48,7 @@ export default {
                     obj.form.date1=new Date();
                     obj.form.A_status=1;
                     this.$axios({
-                        url:'http://localhost:3000/api/user/insert_action',
+                        url:'http://localhost:3000/api/Admin/insert_action',
                         method:'post',
                         data:obj.form
                     }).then((res)=>{
@@ -69,7 +69,7 @@ export default {
                 }).catch(() => {
                     obj.form.A_status=0;
                     this.$axios({
-                        url:'http://localhost:3000/api/user/insert_action',
+                        url:'http://localhost:3000/api/Admin/insert_action',
                         method:'post',
                         data:obj.form
                     }).then((res)=>{
@@ -79,7 +79,7 @@ export default {
                                 type:'success'
                             })
                         }else{
-                            obj.$message.error('添加失败')
+                            obj.$message.error('添加失败(活动已存在)')
                         }
                         for (var i in obj.form) {
                             obj.form[i]=''

@@ -71,6 +71,7 @@ export default {
             if (!value) {
                 return callback(new Error('姓名不能为空'));
             }
+            callback();
         };
         var checkTerm = (rule, value, callback) => {
             if (!value) {
@@ -173,7 +174,7 @@ export default {
             }
             this.$axios({
                 method:'post',
-                url:'http://localhost:3000/api/user/select_admin',
+                url:'http://localhost:3000/api/Admin/select_admin',
                 data:data
             }).then((res)=>{
                 console.log(res.data);
@@ -196,7 +197,7 @@ export default {
             }).then(() => {
                 obj.$axios({
                     method:'post',
-                    url:'http://localhost:3000/api/user/insert_admin',
+                    url:'http://localhost:3000/api/Admin/insert_admin',
                     data:data
                 }).then((res)=>{
                     if(res.data!='0'||res.data!='您已无权登陆'){
@@ -204,7 +205,7 @@ export default {
                             message:'传承成功',
                             type:'success'
                         })
-                        obj.$router.push({path:'/'})
+                        obj.$router.push({path:'/admin/home'})
                     }
                 }).catch((res)=>{
                     console.log(res);

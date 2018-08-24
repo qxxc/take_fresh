@@ -1,23 +1,23 @@
-const UserModel = require('../model/UserModel')
-const sql = require('./sql')
-const UserCtrl = {
+const AdminModel = require('../model/Model')
+const sql = require('./AdminSql')
+const AdminCtrl = {
     loading: (req, res) => {
-        UserModel.test(req, res, sql.select_adminstrator.sql, [req.body.username], sql.select_adminstrator.callback);
+        AdminModel.test(req, res, sql.select_adminstrator.sql, [req.body.username], sql.select_adminstrator.callback);
     },
     insertActionDate: (req, res) => {
         var obj=req.body;
-        UserModel.test(req, res, sql.insertActionDate.sql,
+        AdminModel.test(req, res, sql.insertActionDate.sql,
             [obj.A_number, obj.A_adminstrator, obj.A_term, obj.date1, obj.A_status], 
             sql.insertActionDate.callback)
     },
     insertAction: (req, res) => {
         var obj = req.body;
-        UserModel.test(req, res, sql.insertAction.sql,
+        AdminModel.test(req, res, sql.insertAction.sql,
             [obj.A_number, obj.A_adminstrator, obj.A_term, obj.A_status], 
             sql.insertAction.callback)
     },
     getAdminInfo:(req,res)=>{
-        UserModel.test(req, res, sql.getAdminInfo.sql, [req.body.id], sql.getAdminInfo.callback);
+        AdminModel.test(req, res, sql.getAdminInfo.sql, [req.body.id], sql.getAdminInfo.callback);
     },
     updateAdminInfo:(req,res)=>{
         var sql ='update adminstrator set ';
@@ -36,22 +36,22 @@ const UserCtrl = {
         }
         sql = sql.substring(0, sql.length - 1)
         sql+=' where a_id=?'
-        UserModel.test(req,res,sql,array,(req,res,data)=>{
+        AdminModel.test(req,res,sql,array,(req,res,data)=>{
             res.send('1')
         })
     },
     beginAction:(req,res)=>{
-        UserModel.test(req, res, sql.beginAction.sql,
+        AdminModel.test(req, res, sql.beginAction.sql,
             [req.body.date1, req.body.A_status, req.body.A_id],
             sql.beginAction.callback)
     },
     endAction: (req, res) => {
-        UserModel.test(req, res, sql.endAction.sql,
+        AdminModel.test(req, res, sql.endAction.sql,
             [req.body.date1, req.body.A_status, req.body.A_id],
             sql.endAction.callback)
     },
     getAllUser: (req, res) => {
-        UserModel.test(req, res, sql.getAllUser.sql,[req.body.trem],
+        AdminModel.test(req, res, sql.getAllUser.sql,[req.body.trem],
             // [req.body.date1, req.body.A_status, req.body.A_id],
             sql.getAllUser.callback)
     },
@@ -59,7 +59,7 @@ const UserCtrl = {
         var array=req.body;
         var callback = sql.changIStatus.callback(req, res);
         array.forEach(row=>{
-            UserModel.test(req, res, sql.changIStatus.sql, [row.status, row.id], callback )
+            AdminModel.test(req, res, sql.changIStatus.sql, [row.status, row.id], callback )
         })
         
     },
@@ -68,27 +68,27 @@ const UserCtrl = {
             res.send('填写正确的学年')
         }else{
             async function inherit(req,res){
-                await UserModel.test(req, res, sql.changaStatus.sql, [req.body.a_id], sql.changaStatus.callback)
-                await UserModel.test(req, res, sql.insertAdmin.sql, [req.body.num, req.body.pass, req.body.name, req.body.term, req.body.tel], sql.insertAdmin.callback)
+                await AdminModel.test(req, res, sql.changaStatus.sql, [req.body.a_id], sql.changaStatus.callback)
+                await AdminModel.test(req, res, sql.insertAdmin.sql, [req.body.num, req.body.pass, req.body.name, req.body.term, req.body.tel], sql.insertAdmin.callback)
             }
             inherit(req,res).then(val=>{console.log(val)}).catch(err=>{console.log(err)});
         }
     },
     getInterApply:(req,res)=>{
-        UserModel.test(req, res, sql.getInterApply.sql, [], sql.getInterApply.callback)
+        AdminModel.test(req, res, sql.getInterApply.sql, [], sql.getInterApply.callback)
     },
     selectAction: (req,res)=>{
-        UserModel.test(req,res,sql.selectAction.sql,[],sql.selectAction.callback)
+        AdminModel.test(req,res,sql.selectAction.sql,[],sql.selectAction.callback)
     },
     getAction: (req,res)=>{
-        UserModel.test(req, res, sql.getAction.sql, [req.body.date, req.body.date], sql.getAction.callback)
+        AdminModel.test(req, res, sql.getAction.sql, [req.body.date, req.body.date], sql.getAction.callback)
     },
     getInter: (req, res) => {
-        UserModel.test(req, res, sql.getInter.sql, [req.body.date, req.body.date], sql.getInter.callback)
+        AdminModel.test(req, res, sql.getInter.sql, [req.body.date, req.body.date], sql.getInter.callback)
     },
     deleteInter:(req,res)=>{
-        UserModel.test(req, res, sql.deleteInter.sql, [req.body.I_id], sql.deleteInter.callback)
+        AdminModel.test(req, res, sql.deleteInter.sql, [req.body.I_id], sql.deleteInter.callback)
     }
 }
 
-module.exports = UserCtrl
+module.exports = AdminCtrl

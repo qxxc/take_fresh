@@ -42,7 +42,7 @@
 export default {
     created(){
         this.$axios({
-            url:'http://localhost:3000/api/user/get_admin_info',
+            url:'http://localhost:3000/api/Admin/get_admin_info',
             method:'post',
             data:{
                 id:sessionStorage.getItem('id')
@@ -190,7 +190,7 @@ export default {
                 }
             }
             this.$axios({
-                url:'http://localhost:3000/api/user/update_admin_info',
+                url:'http://localhost:3000/api/Admin/update_admin_info',
                 method:'post',
                 data:data
             }).then(res=>{

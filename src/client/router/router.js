@@ -1,30 +1,32 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from './../store/store'
-import land from "./../components/pages/land.vue";
-import home from "./../components/pages/home.vue";
-import interViewInfo from "./../components/common/interview_info.vue";
-import createAction from "./../components/common/create_action.vue";
-import actionInfo from "./../components/common/action_info.vue";
-import a from "./../components/common/a.vue";
-import interview_apply from "./../components/common/interview_apply.vue";
-import next from "./../components/common/next.vue";
-import _info from "./../components/common/_info.vue";
+import land from "./../components/pages/admin/land.vue";
+import home from "./../components/pages/admin/home.vue";
+import interViewInfo from "./../components/common/admin/interview_info.vue";
+import createAction from "./../components/common/admin/create_action.vue";
+import actionInfo from "./../components/common/admin/action_info.vue";
+import a from "./../components/common/admin/a.vue";
+import interview_apply from "./../components/common/admin/interview_apply.vue";
+import next from "./../components/common/admin/next.vue";
+import _info from "./../components/common/admin/_info.vue";
 
 Vue.use(Router)
 
 var router = new Router({
   mode: 'history',
   routes: [
-    { name: '/', path: '/', component: land },
-    {  path: '/home', component: home,children:[
+    { path: '/admin', component: land, children:[
+      
+    ]},
+    {  path: '/admin/home', component: home,children:[
       { path: '/', component: actionInfo},
-      { path: '/createAction', component: createAction},
-      { path: '/interview', component:interViewInfo },
-      { path: '/a', component:a },
-      { path: '/interview_apply', component: interview_apply },
-      { path: '/next', component: next },
-      { path: '/_info', component: _info },
+      { path: '/admin/home/createAction', component: createAction},
+      { path: '/admin/home/interview', component:interViewInfo },
+      { path: '/admin/home/a', component:a },
+      { path: '/admin/home/interview_apply', component: interview_apply },
+      { path: '/admin/home/next', component: next },
+      { path: '/admin/home/_info', component: _info },
     ]},
   ]
 })

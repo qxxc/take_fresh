@@ -2,7 +2,7 @@
   "name": "ttms1",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "author": "jiaoyu <979831270@qq.com>",
+  "author": "jiaoyu <qxxc_1234@sina.com>",
   "main": "./src/server/index.js",
   "scripts": {
     "start": "npm run dev_all",

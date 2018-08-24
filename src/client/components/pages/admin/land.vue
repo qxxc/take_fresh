@@ -33,11 +33,11 @@ export default {
             var go=this;
             this.$axios({
                 method:'post',
-                url:'http://localhost:3000/api/user/select_admin',
+                url:'http://localhost:3000/api/Admin/select_admin',
                 data:data
             }).then((res)=>{
                 if(res.data!='0'&&res.data!='-1'){
-                    go.$router.push('/home');
+                    go.$router.push('/admin/home');
                     sessionStorage.setItem("id",res.data);
                 }else if(res.data=='0'){
                     this.$message.error('密码错误'); 

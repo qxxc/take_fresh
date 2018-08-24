@@ -38,7 +38,7 @@
     created(){
       this.$axios({
         method:'get',
-        url:'http://localhost:3000/api/user/get_inter_apply'
+        url:'http://localhost:3000/api/Admin/get_inter_apply'
       }).then((res)=>{
         this.tableData3=res.data
       }).catch((res)=>{
@@ -62,7 +62,7 @@
           });
         });
         this.$axios({
-          url:'http://localhost:3000/api/user/chang_I_status',
+          url:'http://localhost:3000/api/Admin/chang_I_status',
           method:'post',
           data:array
         }).then(res=>{

@@ -5,6 +5,7 @@ const UserModel = {
         _connect.getConnection(function (err, connection) {
             if (err) {
                 console.log(err);
+                res.send('0')
             } else {
                 connection.query(sql,Array,function (err, data) {
                     if (err) {

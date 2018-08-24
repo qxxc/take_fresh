@@ -54,7 +54,7 @@ export default {
     },
     methods:{
         see(index,row){
-            this.$router.push({path:'/a',query:{id:row.A_term}});
+            this.$router.push({path:'/admin/home/a',query:{id:row.A_term}});
         },
         handleEdit(index, row) {
             var obj=this;
@@ -68,7 +68,7 @@ export default {
                 }
                 console.log(data);
                 this.$axios({
-                    url:'http://localhost:3000/api/user/begin_action',
+                    url:'http://localhost:3000/api/Admin/begin_action',
                     method:'post',
                     data:data
                 }).then((res)=>{
@@ -99,7 +99,7 @@ export default {
                 }
                 console.log(data);
                 this.$axios({
-                    url:'http://localhost:3000/api/user/end_action',
+                    url:'http://localhost:3000/api/Admin/end_action',
                     method:'post',
                     data:data
                 }).then((res)=>{
@@ -123,7 +123,7 @@ export default {
     created(){
         var obj=this;
         this.$axios({
-            url:'http://localhost:3000/api/user/select_action',
+            url:'http://localhost:3000/api/Admin/select_action',
             method:'get',
         }).then((res)=>{
             res.data.map((item,index,input)=>{

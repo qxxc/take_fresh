@@ -42,7 +42,7 @@ export default {
     created(){
         var obj=this
         this.$axios({
-            url:'http://localhost:3000/api/user/get_inter',
+            url:'http://localhost:3000/api/Admin/get_inter',
             method:'get',
         }).then((res)=>{
             obj.tableData=res.data
@@ -62,7 +62,7 @@ export default {
         handleDelete(index, row) {
             var obj=this;
             this.$axios({
-                url:'http://localhost:3000/api/user/delete_inter',
+                url:'http://localhost:3000/api/Admin/delete_inter',
                 method:'post',
                 data:obj.tableData[index]
             }).then((res)=>{
