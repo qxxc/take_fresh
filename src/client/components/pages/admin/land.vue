@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="left">
-            <img src="http://localhost:3000/home.png" class="home_img">
+            <img src="http://localhost:3000/admin_home.png" class="home_img">
         </div>
         <div class="right"></div>
         <div class="right">

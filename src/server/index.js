@@ -15,7 +15,7 @@ const bodyParser = require('body-parser')
 // const cookieParser = require('cookie-parser')
 // 处理 enctype = "multipart/form-data" 表单数据
 // const multer = require('multer')
-// 引入history模块,协助vue路由
+// 引入history模块,协助vue路由 
 const history = require('connect-history-api-fallback')
 
 // 环境变量
@@ -30,10 +30,53 @@ const compiler = webpack(webpackCfg)
 
 // 引入系统路由文件
 const routerCfg = require('./router/routers')
-
+const InterControl=require('./controller/InterController')
 // 实例应用
 const app = express()
-
+var server = require('http').createServer(app);
+var io = require('socket.io')(server); 
+server.listen(3001)
+const _connect = require('./config/mysql')
+io.on('connection', (socket)=>{
+    var _id
+    console.log('connected success');
+    socket.on("disconnect", function () {
+        console.log('connect out')
+    })
+    socket.on('message', function(obj) {
+        var z;
+        _connect.getConnection(function (err, connection) {
+            if (err) {
+                console.log(err);
+            } else {
+                connection.query('select u_number,u_name,u_sex,u_class,g_name,u_count,u_info,u_term from user left join group_info on u_group=g_id where u_status=2 and u_count<3', [], 
+                function (err, data) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        if (data) {
+                            z = JSON.stringify(data);
+                            io.emit('message', data);
+                        }
+                    }
+                })
+                _id=setInterval(()=>{
+                    connection.query('select u_number,u_name,u_sex,u_class,g_name,u_count,u_info,u_term from user left join group_info on u_group=g_id where u_status=2 and u_count<3', [], function (err, data) {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            if (z != JSON.stringify(data)) {
+                                z = JSON.stringify(data);
+                                io.emit('message', data);
+                            }
+                        }
+                    })
+                },1000)
+            }
+        })
+    })
+    clearInterval(_id);
+})
 /****************************************/
 // 日志记录
 app.use(logger('dev'))

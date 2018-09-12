@@ -13,6 +13,9 @@ export default {
   }
 }
 </script>
-<style lang="less">
-
+<style>
+*{
+  padding: 0;
+  margin: 0
+}
 </style>

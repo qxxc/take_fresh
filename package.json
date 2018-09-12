@@ -32,10 +32,12 @@
     "mysql": "^2.15.0",
     "nodemailer": "4.6.7",
     "npm-check": "^5.7.1",
+    "socket.io": "^2.1.1",
     "vue": "^2.5.16",
     "vue-hot-reload-api": "^2.3.0",
     "vue-html-loader": "^1.2.4",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-socket.io": "^2.1.1-b"
   },
   "devDependencies": {
     "autoprefixer": "^8.5.0",
