@@ -15,6 +15,7 @@ import interviewer_land from "./../components/pages/interviewer/land.vue";
 import inter_wait from "./../components/common/interviewer/inter_wait.vue";
 import interview from "./../components/common/interviewer/interview.vue";
 import interviewing from "./../components/common/interviewer/interviewing.vue";
+import interview_result from "./../components/common/interviewer/interview_result.vue";
 
 Vue.use(Router)
 
@@ -36,6 +37,7 @@ var router = new Router({
         { path: '/' ,component:inter_wait},
         { path: '/inter/interview', component: interview},
         { path: '/inter/interviewing',name:'interviewing', component: interviewing},
+        { path: '/inter/interview_result', component: interview_result},
       ]
     },
   ]

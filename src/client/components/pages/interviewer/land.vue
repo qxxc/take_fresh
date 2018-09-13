@@ -5,7 +5,7 @@
             <el-menu style="min-width:1000px;padding-left:100px" router :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
                 <el-menu-item index="1" :route="{ path:'/inter' }">签到队列</el-menu-item>
                 <el-menu-item index="2" :route="{ path:'/inter/interview' }">面试队列</el-menu-item>
-                <el-menu-item index="3" :route="{ path:'/inter' }">面试结果</el-menu-item>
+                <el-menu-item index="3" :route="{ path:'/inter/interview_result' }">面试结果</el-menu-item>
                 <el-menu-item index="4" style="float:right" :route="{ path:'/' }">登陆</el-menu-item>
                 <el-menu-item index="5" style="float:right" :route="{ path:'/' }">注册</el-menu-item>
             </el-menu>
