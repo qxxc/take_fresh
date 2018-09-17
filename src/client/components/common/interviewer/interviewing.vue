@@ -35,7 +35,7 @@
         <div class="right">
             <div v-if="params_data.u_count>=0">
                 <dl>
-                    <dt>第一次面试</dt>{{user_result}}
+                    <dt>第一次面试</dt>
                     <div style="padding:0" v-if="user_result.result==1">
                         <dd><span>基本打分：<input v-model='user_result.r_first_base' type="number"></span><span style="margin-left:12px">拓展打分：<input v-model='user_result.r_first_expent' type="number"></span></dd>
                         <dd style="display: flex;align-items:top;justify-content:center;margin-top:10px">面试官评价：<textarea v-model='user_result.r_first_info' cols="50" rows="5" style="font-size:14px"></textarea></dd>
@@ -78,10 +78,10 @@ export default {
         return{
             params_data:this.$route.params,
             user_result:{},
+            _id:0,
         }
     },
     created(){
-        console.log(this.params_data)
         var that=this;
         this.$axios({
             url:'http://localhost:3000/api/Inter/get_user_result',
@@ -90,8 +90,6 @@ export default {
                 u_number:that.$route.params.u_number
             }
         }).then((res)=>{
-            console.log(res.data)
-
             if(!res.data.r_first_base){
                 res.data.result=1
             }else if(res.data.r_first_base&&res.data.r_second_base){
@@ -131,11 +129,20 @@ export default {
                         message: '提交成功',
                         type: 'success'
                     });
-                    setTimeout(() => {
-                        this.$router.push('/inter/interviewing');
-                    }, 1000);
+                    this._id=1
                 }
             }).catch(res=>{
+                console.log(res.data);
+            })
+        }
+    },
+    beforeDestroy(){
+        if(!this._id){
+            this.$axios({
+                url:'http://localhost:3000/api/Inter/goBack_user_status',
+                method:'post',
+                data:{u_nmuber:this.params_data.u_number}
+            }).then(res=>{
                 console.log(res.data);
             })
         }

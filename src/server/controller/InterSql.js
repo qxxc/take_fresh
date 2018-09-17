@@ -32,5 +32,9 @@ module.exports={
             })
             res.send(data);
         }
+    },
+    goBackUserStatus:{
+        sql:'Update user set u_status=2 where u_number=?',
+        callback(req,res,data){}
     }
 }

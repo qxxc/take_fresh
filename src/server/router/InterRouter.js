@@ -19,4 +19,7 @@ InterRouter
     .post('/update_user_result',(req,res)=>{
         InterController.updateUserResult(req,res)
     })
+    .post('/goBack_user_status',(req,res)=>{
+        InterController.goBackUserStatus(req,res)
+    })
 module.exports=InterRouter
