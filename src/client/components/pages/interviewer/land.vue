@@ -6,8 +6,9 @@
                 <el-menu-item index="1" :route="{ path:'/inter' }">签到队列</el-menu-item>
                 <el-menu-item index="2" :route="{ path:'/inter/interview' }">面试队列</el-menu-item>
                 <el-menu-item index="3" :route="{ path:'/inter/interview_result' }">面试结果</el-menu-item>
-                <p style="margin-right:10px;float:right" @click="chang_login" :route="{ path:handleSelect}">登陆</p>
-                <p style="float:right">注册</p>
+                <p style="margin-right:10px;float:right" @click="chang_login" v-if="is_Name">登陆</p>
+                <p style="float:right" @click="chang_register" v-if="is_Name">注册</p>
+                <p style="float:right"  v-if="!is_Name">你好，{{name}}</p>
             </el-menu>
         </div>
         <div class="body">
@@ -16,14 +17,36 @@
             </transition>
         </div>
         <div class="fade" v-if="login"></div>
-        <div class="succ-pop" v-if="login">
+        <div class="succ-pop" style="height:260px;margin-top:-130px" v-if="login">
             <h3 class="title">
+                <h4>ACAT</h4>
                 <i class="el-icon-close" @click="remove_login"></i>
             </h3>
             <div class="login_body">
-                <p style="margin:20px 0px"><input @keyup.13="submit" type="text" v-model="form.username" placeholder="请输入账号"></p>
-                <p style="margin:20px 0px"><input @keyup.13="submit" type="password" v-model="form.password" placeholder="请输入密码"></p>
-                <input type="button" class="submit" @click="submit" value="提交">
+                <p style="margin:20px 0px"><input @keyup.13="login_submit" type="text" v-model="form.username" placeholder="请输入账号"></p>
+                <p style="margin:20px 0px"><input @keyup.13="login_submit" type="password" v-model="form.password" placeholder="请输入密码"></p>
+                <input type="button" class="submit" @click="login_submit" value="登陆">
+            </div>
+        </div>
+        <div class="fade" v-if="register"></div>
+        <div class="succ-pop" v-if="register">
+            <h3 class="title">
+                <h4>ACAT</h4>
+                <i class="el-icon-close" @click="remove_register"></i>
+            </h3>
+            <div class="login_body">
+                <p style="margin:20px 0px"><input @keyup.13="register_submit" type="text" v-model="formRegister.username" placeholder="请输入账号"></p>
+                <p style="margin:20px 0px"><input @keyup.13="register_submit" type="password" v-model="formRegister.password" placeholder="请输入密码"></p>
+                <p style="margin:20px 0px"><input @keyup.13="register_submit" type="text" v-model="formRegister.name" placeholder="请填写姓名"></p>
+                <div style="margin-left:20px">
+                    <el-radio-group v-model="formRegister.group" size="small">
+                    <el-radio-button label="1">web前端</el-radio-button>
+                    <el-radio-button label="2">php/java</el-radio-button>
+                    <el-radio-button label="3">python/c++</el-radio-button>
+                    <el-radio-button label="4">人工智能</el-radio-button>
+                    </el-radio-group>
+                </div>
+                <input type="button" class="submit" @click="register_submit" value="注册并申请">
             </div>
         </div>
     </div>
@@ -36,27 +59,90 @@ export default {
             activeIndex: '1',
             activeIndex2: '1',
             login:false,
+            register:false,
+            is_Name:true,
+            name:'',
             form:{
                 username:'',
                 password:'',
+            },
+            formRegister:{
+                username:'',
+                password:'',
+                name:'',
+                term:'',
+                group:'',
             }
         };
     },
     methods: {
         handleSelect(key, keyPath) {
-            console.log(keyPath.path)
+            console.log(1)
         },
         chang_login(){
             this.login=!this.login
         },
-        submit(){},
+        login_submit(){
+            this.$axios({
+                url:'http://localhost:3000/api/Inter/login_inter',
+                method:'post',
+                data:this.form
+            }).then(res=>{
+                if(res.data!='0'){
+                    this.remove_login()
+                    this.is_Name=false
+                    this.name=res.data.name
+                }else{
+                    this.$message.error('密码错误'); 
+                }
+                
+            }).catch(res=>{
+                console.log(res.data);
+            })
+        },
         remove_login(){
             this.chang_login();
             this.form={
                 username:'',
                 password:'',
             }
-        }
+        },
+        chang_register(){
+            this.register=!this.register
+        },
+        register_submit(){
+            var date=new Date();
+            if(date.getMonth()+1>8){
+                this.formRegister.term=date.getFullYear()
+            }else{
+                this.formRegister.term=date.getFullYear()-1
+            }
+            this.$axios({
+                url:'http://localhost:3000/api/Inter/register_submit',
+                method:'post',
+                data:this.formRegister
+            }).then(res=>{
+                if(res.data){
+                    this.$message({
+                        message: '申请成功,等待审核中',
+                        type: 'success'
+                    });
+                    this.remove_register()
+                }
+            }).catch(res=>{
+                console.log(res.data);
+            })
+        },
+        remove_register(){
+            this.chang_register();
+            this.formRegister={
+                username:'',
+                password:'',
+                name:'',
+                term:'',
+                group:'',
+            }
+        },
     }
 }
 </script>
@@ -82,7 +168,7 @@ export default {
     margin 20px auto
     padding-top 20px
     width 90%
-    min-width 1000px
+    min-width 1200px
 .header 
     p
         font-size 14px
@@ -124,13 +210,13 @@ export default {
     z-index 99
 .succ-pop
     width 400px
-    height 300px
+    height 360px
     background #fff
     position fixed
     left 50%
     top 50%
     margin-left -200px
-    margin-top -150px
+    margin-top -180px
     z-index 999
     border-radius 5px
 .succ-pop 
@@ -142,16 +228,22 @@ export default {
         :hover
             cursor pointer
             color black
+    h4
+        float left
+        color black
+        padding-left 20px
+        :hover
+            cursor default      
 .login_body
     input
         display block
-        height 30px
-        width 202px
+        height 40px
+        width 360px
         padding 0 15px
         border 1px solid #dcdfe6
         border-radius 4px
         color #606266
-        margin 0 auto
+        margin 0 20px   
         line-height 40px
         box-sizing:border-box
     p

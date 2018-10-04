@@ -26,6 +26,10 @@
                     <dt>年级</dt>
                     <dd>{{params_data.u_term}}</dd>
                 </dl>
+                <dl>
+                    <dt>联系方式</dt>
+                    <dd>{{params_data.u_tel}}</dd>
+                </dl>
             </div>
             <div class="bottom">
                 <h4>个人描述</h4>
@@ -36,36 +40,37 @@
             <div v-if="params_data.u_count>=0">
                 <dl>
                     <dt>第一次面试</dt>
-                    <div style="padding:0" v-if="user_result.result==1">
+                    <div style="padding:0" v-if="result_count==0">
                         <dd><span>基本打分：<input v-model='user_result.r_first_base' type="number"></span><span style="margin-left:12px">拓展打分：<input v-model='user_result.r_first_expent' type="number"></span></dd>
                         <dd style="display: flex;align-items:top;justify-content:center;margin-top:10px">面试官评价：<textarea v-model='user_result.r_first_info' cols="50" rows="5" style="font-size:14px"></textarea></dd>
                         <dd><input type="button" value="提交" @click="submit_result(1)" class="submit"></dd>
                     </div>
-                    <dd v-if="user_result.result>1"><span>基本打分：{{user_result.r_first_base}}</span><span style="margin-left:12px">拓展打分：{{user_result.r_first_expent}}</span></dd>
-                    <dd v-if="user_result.result>1">面试官评价：{{user_result.r_first_info}}</dd>
+                    <dd v-if="result_count>0"><span>基本打分：{{user_result.r_first_base}}</span><span style="margin-left:12px">拓展打分：{{user_result.r_first_expent}}</span></dd>
+                    <dd v-if="result_count>0">面试官评价：{{user_result.r_first_info}}</dd>
                 </dl>
             </div>
             <div v-if="params_data.u_count>=1">
                 <dl>
                     <dt>第二次面试</dt>
-                    <div style="padding:0" v-if="user_result.result==2">
+                    <div style="padding:0" v-if="result_count==1">
                         <dd><span>基本打分：<input v-model='user_result.r_second_base' type="number"></span><span style="margin-left:12px">拓展打分：<input v-model='user_result.r_second_expent' type="number"></span></dd>
                         <dd style="display: flex;align-items:top;justify-content:center;margin-top:10px">面试官评价：<textarea v-model='user_result.r_second_info' cols="50" rows="5" style="font-size:14px"></textarea></dd>
                         <dd><input type="button" value="提交" @click="submit_result(2)" class="submit"></dd>
                     </div>
-                    <dd v-if="user_result.result>2"><span>基本打分：{{user_result.r_second_base}}</span><span style="margin-left:12px">拓展打分：{{user_result.r_second_expent}}</span></dd>
-                    <dd v-if="user_result.result>2">面试官评价：{{user_result.r_second_info}}</dd>
-                    
+                    <dd v-if="result_count>1"><span>基本打分：{{user_result.r_second_base}}</span><span style="margin-left:12px">拓展打分：{{user_result.r_second_expent}}</span></dd>
+                    <dd v-if="result_count>1">面试官评价：{{user_result.r_second_info}}</dd>
                 </dl>
             </div>
-            <div v-if="params_data.u_count==2">
+            <div v-if="params_data.u_count>=2">
                 <dl>
                     <dt>第三次面试</dt>
-                    <div style="padding:0">
+                    <div style="padding:0" v-if="result_count==2">
                         <dd><span>基本打分：<input v-model='user_result.r_third_base' type="number"></span><span style="margin-left:12px">拓展打分：<input v-model='user_result.r_third_expent' type="number"></span></dd>
                         <dd style="display: flex;align-items:top;justify-content:center;margin-top:10px">面试官评价：<textarea v-model='user_result.r_third_info' cols="50" rows="5" style="font-size:14px"></textarea></dd>
                         <dd><input type="button" value="提交" @click="submit_result(3)" class="submit"></dd>
                     </div>
+                    <dd v-if="result_count>2"><span>基本打分：{{user_result.r_second_base}}</span><span style="margin-left:12px">拓展打分：{{user_result.r_second_expent}}</span></dd>
+                    <dd v-if="result_count>2">面试官评价：{{user_result.r_second_info}}</dd>
                 </dl>
             </div>
         </div>
@@ -79,6 +84,7 @@ export default {
             params_data:this.$route.params,
             user_result:{},
             _id:0,
+            result_count:0
         }
     },
     created(){
@@ -90,14 +96,17 @@ export default {
                 u_number:that.$route.params.u_number
             }
         }).then((res)=>{
-            if(!res.data.r_first_base){
-                res.data.result=1
+            if(res.data.r_first_base&&res.data.r_second_base&&res.data.r_third_base){
+                this.result_count=3
             }else if(res.data.r_first_base&&res.data.r_second_base){
-                res.data.result=3
-            }else if(res.data.r_first_base)(
-                res.data.result=2
-            )
+                this.result_count=2
+            }else if(res.data.r_first_base){
+                this.result_count=1
+            }else{
+                this.result_count=0
+            }
             that.user_result=res.data
+            console.log(res.data,this.result_count);
         }).catch((res)=>{
             console.log(res);
         })
@@ -136,16 +145,17 @@ export default {
             })
         }
     },
-    beforeDestroy(){
-        if(!this._id){
+    beforeRouteLeave(from,to,next){
+        if(!this._id&&from.path!='/inter/interview_result'){
             this.$axios({
                 url:'http://localhost:3000/api/Inter/goBack_user_status',
                 method:'post',
-                data:{u_nmuber:this.params_data.u_number}
+                data:{u_number:this.params_data.u_number}
             }).then(res=>{
                 console.log(res.data);
             })
-        }
+        };
+        next()
     }
 }
 </script>
@@ -156,6 +166,7 @@ export default {
     overflow hidden
     .left
         float left
+        min-width 550px
         width 46%
         padding 12px
         h4
@@ -181,7 +192,7 @@ export default {
         float none
         dl
             display inline-block
-            width 24%
+            width 19%
             text-align center
             padding 10px 0px
             margin 5px 0px

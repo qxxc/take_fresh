@@ -31,7 +31,13 @@
             </el-table-column>
             <el-table-column label="操作" align="center">
             <template slot-scope="scope">
-                <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">面试</el-button>
+                <div v-if="scope.row.u_status!=5">
+                    <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
+                    <el-button size="mini" @click="handleEdit1(scope.$index, scope.row)">通过</el-button>
+                </div>
+                <div v-if="scope.row.u_status==5">
+                    <span style="margin-left: 10px">已通过</span>
+                </div>
             </template>
             </el-table-column>
         </el-table>
@@ -58,7 +64,23 @@ export default {
     },
     methods:{
         handleEdit(index, row) {
-            
+            this.$router.push({name:'interviewing',params:row});
+        },
+        handleEdit1(index,row){
+            console.log(index)
+            this.$axios({
+                url:'http://localhost:3000/api/Inter/allow_user',
+                method:'post',
+                data:{
+                    u_number:row.u_number
+                }
+            }).then(res=>{
+                this.$message({
+                    message: '通过成功',
+                    type: 'success'
+                });
+                this.tableData[index].u_status=5
+            })
         },
         tableRowClassName({row, rowIndex}) {
             if (rowIndex === 0) {

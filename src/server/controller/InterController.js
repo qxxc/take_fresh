@@ -29,8 +29,19 @@ const InterCtrl={
         InterModel.test(req, res, sql.getInterviewResult.sql, [], sql.getInterviewResult.callback);
     },
     goBackUserStatus(req,res){
-        console.log(req.body.u_number)
+        console.log(req.body)
         InterModel.test(req, res, sql.goBackUserStatus.sql, [req.body.u_number], sql.goBackUserStatus.callback);
+    },
+    loginInter(req,res){
+        InterModel.test(req, res, sql.loginInter.sql, [req.body.username], sql.loginInter.callback);
+    },
+    registerSubmit(req,res){
+        var data=Object.values(req.body);
+        data.push('0');
+        InterModel.test(req, res, sql.registerSubmit.sql, data, sql.registerSubmit.callback)
+    },
+    allowUser(req,res){
+        InterModel.test(req, res, sql.allowUser.sql, [req.body.u_number], sql.allowUser.callback);
     }
 }
 

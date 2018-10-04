@@ -22,4 +22,13 @@ InterRouter
     .post('/goBack_user_status',(req,res)=>{
         InterController.goBackUserStatus(req,res)
     })
+    .post('/login_inter',(req,res)=>{
+        InterController.loginInter(req,res)
+    })
+    .post('/register_submit',(req,res)=>{
+        InterController.registerSubmit(req,res)
+    })
+    .post('/allow_user',(req,res)=>{
+        InterController.allowUser(req,res)
+    })
 module.exports=InterRouter
