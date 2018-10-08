@@ -29,7 +29,6 @@ const InterCtrl={
         InterModel.test(req, res, sql.getInterviewResult.sql, [], sql.getInterviewResult.callback);
     },
     goBackUserStatus(req,res){
-        console.log(req.body)
         InterModel.test(req, res, sql.goBackUserStatus.sql, [req.body.u_number], sql.goBackUserStatus.callback);
     },
     loginInter(req,res){

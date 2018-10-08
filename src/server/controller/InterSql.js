@@ -1,6 +1,6 @@
 module.exports={
     getUserWaiting:{
-        sql:'select u_number,u_name,u_sex,u_class,g_name,u_count,u_info,u_term from user left join group_info on u_group=g_id where u_status=2 and u_count<3',
+        sql:'select u_number,u_name,u_sex,u_class,g_name,u_count,u_info,u_term,u_tel from user left join group_info on u_group=g_id where u_status=2 and u_count<3',
         callback(req,res,data){
             res.send(data);
         }
@@ -41,7 +41,7 @@ module.exports={
         }
     },
     loginInter:{
-        sql:'select I_number,I_password,I_name from interviewer where I_number=?',
+        sql:'select I_id,I_number,I_password,I_name from interviewer where I_number=?',
         callback(req,res,data){
             console.log(data)
             if (req.body.username == data[0].I_number && req.body.password == data[0].I_password){

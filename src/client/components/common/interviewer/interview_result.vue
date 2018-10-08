@@ -64,23 +64,36 @@ export default {
     },
     methods:{
         handleEdit(index, row) {
-            this.$router.push({name:'interviewing',params:row});
+            if(sessionStorage.getItem('id')){
+                this.$router.push({name:'interviewing',params:row});
+            }else{
+            this.$message({
+                    message: '请登录',
+                    type: 'warning'
+            });
+        }
         },
         handleEdit1(index,row){
-            console.log(index)
-            this.$axios({
-                url:'http://localhost:3000/api/Inter/allow_user',
-                method:'post',
-                data:{
-                    u_number:row.u_number
-                }
-            }).then(res=>{
-                this.$message({
-                    message: '通过成功',
-                    type: 'success'
-                });
-                this.tableData[index].u_status=5
-            })
+            if(sessionStorage.getItem('id')){
+                this.$axios({
+                    url:'http://localhost:3000/api/Inter/allow_user',
+                    method:'post',
+                    data:{
+                        u_number:row.u_number
+                    }
+                }).then(res=>{
+                    this.$message({
+                        message: '通过成功',
+                        type: 'success'
+                    });
+                    this.tableData[index].u_status=5
+                })
+            }else{
+            this.$message({
+                message: '请登录',
+                type: 'warning'
+            });
+        }
         },
         tableRowClassName({row, rowIndex}) {
             if (rowIndex === 0) {

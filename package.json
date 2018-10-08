@@ -26,6 +26,7 @@
     "eslint-plugin-promise": ">=3.6.0",
     "fish-chart": "^1.0.0",
     "http-errors": "^1.6.3",
+    "js-md5": "^0.7.3",
     "jsonwebtoken": "8.3.0",
     "md5": "2.2.1",
     "multer": "^1.3.0",

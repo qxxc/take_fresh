@@ -17,6 +17,10 @@ import interview from "./../components/common/interviewer/interview.vue";
 import interviewing from "./../components/common/interviewer/interviewing.vue";
 import interview_result from "./../components/common/interviewer/interview_result.vue";
 
+import user_land from "./../components/pages/user/land.vue";
+import user_login from "./../components/common/user/login";
+import user_resgiter from "./../components/common/user/resgiter";
+import user_enter from "./../components/common/user/enter";
 Vue.use(Router)
 
 var router = new Router({
@@ -40,6 +44,13 @@ var router = new Router({
         { path: '/inter/interview_result', component: interview_result},
       ]
     },
+    {
+      path: '/user', component: user_land,children:[
+        {path: '/', component: user_login},
+        { path: '/user/resgiter', component: user_resgiter},
+        { path: '/user/enter', component: user_enter}
+      ]
+    }
   ]
 })
 

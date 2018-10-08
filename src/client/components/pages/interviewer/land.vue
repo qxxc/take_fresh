@@ -75,6 +75,12 @@ export default {
             }
         };
     },
+    created(){
+        if(sessionStorage.getItem('id')){
+            this.is_Name=false;
+            this.name=sessionStorage.getItem('name');
+        }
+    },
     methods: {
         handleSelect(key, keyPath) {
             console.log(1)
@@ -91,7 +97,9 @@ export default {
                 if(res.data!='0'){
                     this.remove_login()
                     this.is_Name=false
-                    this.name=res.data.name
+                    this.name=res.data.name;
+                    sessionStorage.setItem('id',res.data.I_id)
+                    sessionStorage.setItem('name',res.data.name)
                 }else{
                     this.$message.error('密码错误'); 
                 }

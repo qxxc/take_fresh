@@ -55,22 +55,28 @@
     },
     methods: {
       handleEdit(index, row) {
-        console.log(row);
-        var rows=row
-        this.$router.push({name:'interviewing',params:row});
-        this.$axios({
-            url:'http://localhost:3000/api/Inter/change_user_status',
-            method:'post',
-            data:{u_number:row.u_number}
-        }).then(res=>{
-            console.log(res.data)
-        })
+        if(sessionStorage.getItem('id')){
+            var rows=row
+            this.$router.push({name:'interviewing',params:row});
+            this.$axios({
+                url:'http://localhost:3000/api/Inter/change_user_status',
+                method:'post',
+                data:{u_number:row.u_number}
+            }).then(res=>{
+                console.log(res.data)
+            })
+        }else{
+            this.$message({
+                message: '请登录',
+                type: 'warning'
+            });
+        }
       },
       get_user_wating(){
           this.$axios({
             url:'http://localhost:3000/api/Inter/get_user_waiting',
             method:'get'
-        }).then(res=>{
+            }).then(res=>{
             res.data.forEach((item,index,array)=>{
                 switch (item.u_count) {
                     case 0:
