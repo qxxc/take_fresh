@@ -35,20 +35,30 @@ export default {
             this.$router.push({path:"/user/resgiter"})
         },
         login(){
-            this.$axios({
-                url:'http://localhost:3000/api/user/user_login',
-                method:"post",
-                data:{
-                    u_number:this.form.u_number,
-                    u_password:this.$md5(this.form.u_password)
-                }
-            }).then(res=>{
-                if(res.data){
-                    this.$router.push({path:'/user/enter'});
-                }else{
-                    this.$message.error('密码错误');
-                }
-            })
+            if(this.form.u_number&&this.form.u_password){
+                this.$axios({
+                    url:'http://localhost:3000/api/user/user_login',
+                    method:"post",
+                    data:{
+                        u_number:this.form.u_number,
+                        u_password:this.$md5(this.form.u_password)
+                    }
+                }).then(res=>{
+                    if(res.data.status){
+                        if(!res.data.u_status){
+                            sessionStorage.setItem('u_number',this.form.u_number);
+                            this.$router.push({path:'/user/enter'});
+                        }else{
+                            this.$router.push({path:'/user/information'});
+                        }
+                    }else{
+                        this.$message.error('密码错误');
+                    }
+                })
+            }else{
+                this.$message({message:'请输入账号和密码',type: 'warning'});
+            }
+            
         }
     }
 }

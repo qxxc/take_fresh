@@ -21,6 +21,7 @@ import user_land from "./../components/pages/user/land.vue";
 import user_login from "./../components/common/user/login";
 import user_resgiter from "./../components/common/user/resgiter";
 import user_enter from "./../components/common/user/enter";
+import user_information from "./../components/common/user/information";
 Vue.use(Router)
 
 var router = new Router({
@@ -48,7 +49,8 @@ var router = new Router({
       path: '/user', component: user_land,children:[
         {path: '/', component: user_login},
         { path: '/user/resgiter', component: user_resgiter},
-        { path: '/user/enter', component: user_enter}
+        { path: '/user/enter', component: user_enter},
+        { path: '/user/information', component: user_information}
       ]
     }
   ]

@@ -43,7 +43,7 @@
                     <input type="number" v-model="form.u_tel" placeholder="联系方式">
                 </p>
                 <p class="in">
-                    <textarea cols="30" rows="10" v-model="form.u_info" placeholder="个人简述，让我们更好的了解你"></textarea>
+                    <textarea cols="24" rows="10" v-model="form.u_info" placeholder="个人简述，让我们更好的了解你"></textarea>
                 </p>
                 <p>
                     <button class="submit" @click="user_resgiter">提交</button>
@@ -138,8 +138,8 @@ export default {
     width 100%
     border 1px solid #dcdfe6
     border-color #409EFF
-    font-size 1em
-    height 3.8em
+    font-size 1.5em
+    height 2.6em
     text-align center
     border-radius 4px 
 </style>

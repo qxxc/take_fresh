@@ -2,7 +2,7 @@
     <div class="body">
         <div class="back" style="background-image: url(http://localhost:3000/26875.jpg);"></div>
         <h1 style="text-align:center;margin-top:1.2em;color:#5A8796" class="animated bounceInRight faster ">计算机应用技术协会</h1>
-        <transition mode="out-in" enter-active-class="animated bounceIn yourElement" leave-active-class="animated bounceOut yourElement ">
+        <transition mode="out-in" :enter-active-class="enter_active_class" leave-active-class="animated bounceOut yourElement ">
             <router-view/>
         </transition>
         
@@ -11,14 +11,26 @@
 
 <script>
 export default {
-
+    data(){
+        return{
+            enter_active_class:"animated bounceIn yourElement"
+        }
+    },
+    beforeRouteUpdate(to,from,next){
+        if(to.path=='/user/enter'){
+            this.enter_active_class=''
+        }else{
+            this.enter_active_class="animated bounceIn yourElement"
+        }
+        next()
+    }
 }
 </script>
 
 <style lang="stylus" scoped>
-.yourElement {
-  animation-duration: 600ms;
-}
+.yourElement 
+  animation-duration 600ms
+
 @media screen and (min-width: 320px) and (max-width: 359px)
     .body
         font-size: 12.8px;
