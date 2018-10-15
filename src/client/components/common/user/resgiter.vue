@@ -2,7 +2,7 @@
     <div class="body">
         <div>
             <div class="box">
-                <p>用户注册{{form}}</p>
+                <p>用户注册</p>
                 <p class="in">
                     <i class="iconfont icon-icontouxiang" style="margin:0.4em;font-size:1.5em"></i>
                     <span style="border:1px solid #5A8796;"></span>
@@ -64,6 +64,7 @@ export default {
                 u_name:'',
                 u_class:'',
                 u_sex:'',
+                u_term:'',
                 u_tel:'',
                 u_info:'',
             }
@@ -71,11 +72,17 @@ export default {
     },
     methods:{
         user_resgiter(){
+            var date=new Date();
             if(this.form.u_number&&this.form.u_password&&this.form.u_name&&this.form.u_class&&this.form.u_sex&&this.form.u_tel){
                 if (this.u_password==this.form.u_password) {
                     this.form.u_password=this.$md5(this.form.u_password);
+                    if(date.getMonth()+1<8){
+                        this.form.u_term=date.getFullYear()-1
+                    }else{
+                        this.form.u_term=date.getFullYear()
+                    }
                     this.$axios({
-                        url:'http://localhost:3000/api/user/user_resgiter',
+                        url:'http://111.230.128.231/api/user/user_resgiter',
                         method:'post',
                         data:this.form
                     }).then(res=>{
@@ -85,6 +92,8 @@ export default {
                                 type:'success'
                             });
                             this.$router.push('/user');
+                        }else{
+                            this.$message.error('账号已存在');
                         }
                     })
                 }else{

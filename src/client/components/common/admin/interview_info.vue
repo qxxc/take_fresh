@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <p style="font-size:25px;">面试官资料</p>
+            <p style="font-size:25px;margin-bottom:10px">面试官资料</p>
         </div>
         <div>
             <el-table :data="tableData" style="width: 100%">
@@ -42,12 +42,11 @@ export default {
     created(){
         var obj=this
         this.$axios({
-            url:'http://localhost:3000/api/Admin/get_inter',
+            url:'http://111.230.128.231/api/Admin/get_inter',
             method:'get',
         }).then((res)=>{
             obj.tableData=res.data
         }).catch((res)=>{
-            console.log(res.data);
         })
     },
     data() {
@@ -57,12 +56,11 @@ export default {
     },
     methods: {
         handleEdit(index, row) {
-            console.log( row);
         },
         handleDelete(index, row) {
             var obj=this;
             this.$axios({
-                url:'http://localhost:3000/api/Admin/delete_inter',
+                url:'http://111.230.128.231/api/Admin/delete_inter',
                 method:'post',
                 data:obj.tableData[index]
             }).then((res)=>{
@@ -76,7 +74,6 @@ export default {
                     obj.$message.error('删除失败');
                 }
             }).catch((res)=>{
-                console.log(res.data);
             })
         }
     }

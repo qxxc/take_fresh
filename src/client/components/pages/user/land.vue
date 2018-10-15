@@ -1,6 +1,6 @@
 <template>
     <div class="body">
-        <div class="back" style="background-image: url(http://localhost:3000/26875.jpg);"></div>
+        <div class="back" style="background-image: url(http://111.230.128.231/26875.jpg);"></div>
         <h1 style="text-align:center;margin-top:1.2em;color:#5A8796" class="animated bounceInRight faster ">计算机应用技术协会</h1>
         <transition mode="out-in" :enter-active-class="enter_active_class" leave-active-class="animated bounceOut yourElement ">
             <router-view/>

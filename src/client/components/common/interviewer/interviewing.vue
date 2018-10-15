@@ -4,7 +4,7 @@
             <div class="top">
                 <h4>面试者资料</h4>
                 <div>
-                    <img src="http://localhost:3000/u=2381740074,3012066882&fm=27&gp=0.jpg" alt="">
+                    <img src="http://111.230.128.231/head.jpg" alt="">
                     <span>{{params_data.u_name}}</span>
                 </div>
             </div>
@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="right">
-            <div v-if="params_data.u_count>=0">
+            <div v-if="result_count>=0">
                 <dl>
                     <dt>第一次面试</dt>
                     <div style="padding:0" v-if="result_count==0">
@@ -49,7 +49,7 @@
                     <dd v-if="result_count>0">面试官评价：{{user_result.r_first_info}}</dd>
                 </dl>
             </div>
-            <div v-if="params_data.u_count>=1">
+            <div v-if="result_count>=1&&params_data.u_status<4">
                 <dl>
                     <dt>第二次面试</dt>
                     <div style="padding:0" v-if="result_count==1">
@@ -61,7 +61,7 @@
                     <dd v-if="result_count>1">面试官评价：{{user_result.r_second_info}}</dd>
                 </dl>
             </div>
-            <div v-if="params_data.u_count>=2">
+            <div v-if="result_count>=2&&params_data.u_status<4">
                 <dl>
                     <dt>第三次面试</dt>
                     <div style="padding:0" v-if="result_count==2">
@@ -69,8 +69,8 @@
                         <dd style="display: flex;align-items:top;justify-content:center;margin-top:10px">面试官评价：<textarea v-model='user_result.r_third_info' cols="50" rows="5" style="font-size:14px"></textarea></dd>
                         <dd><input type="button" value="提交" @click="submit_result(3)" class="submit"></dd>
                     </div>
-                    <dd v-if="result_count>2"><span>基本打分：{{user_result.r_second_base}}</span><span style="margin-left:12px">拓展打分：{{user_result.r_second_expent}}</span></dd>
-                    <dd v-if="result_count>2">面试官评价：{{user_result.r_second_info}}</dd>
+                    <dd v-if="result_count>2&&params_data.u_status<4"><span>基本打分：{{user_result.r_third_base}}</span><span style="margin-left:12px">拓展打分：{{user_result.r_third_expent}}</span></dd>
+                    <dd v-if="result_count>2&&params_data.u_status<4">面试官评价：{{user_result.r_third_info}}</dd>
                 </dl>
             </div>
         </div>
@@ -83,14 +83,15 @@ export default {
         return{
             params_data:this.$route.params,
             user_result:{},
-            _id:0,
-            result_count:0
+            flag:0,
+            result_count:0,
+            pather:'',
         }
     },
     created(){
         var that=this;
         this.$axios({
-            url:'http://localhost:3000/api/Inter/get_user_result',
+            url:'http://111.230.128.231/api/Inter/get_user_result',
             method:'get',
             params:{
                 u_number:that.$route.params.u_number
@@ -106,27 +107,28 @@ export default {
                 this.result_count=0
             }
             that.user_result=res.data
-            console.log(res.data,this.result_count);
+            
         }).catch((res)=>{
-            console.log(res);
+            
         })
     },
     methods:{
         submit_result(val){
             var data=[]
+            this.flag=1
             switch (val) {
                 case 1:
                     data=['r_first_base',parseInt(this.user_result.r_first_base),'r_first_expent',parseInt(this.user_result.r_first_expent),'r_first_info',this.user_result.r_first_info]
                     break;
                 case 2:
-                    data=['r_second_base',this.user_result.r_second_base,'r_second_expent',this.user_result.r_second_expent,'r_second_info',this.user_result.r_second_info]
+                    data=['r_second_base',parseInt(this.user_result.r_second_base),'r_second_expent',parseInt(this.user_result.r_second_expent),'r_second_info',this.user_result.r_second_info]
                     break;
                 case 3:
-                    data=['r_third_base',this.user_result.r_third_base,'r_third_expent',this.user_result.r_third_expent,'r_third_info',this.user_result.r_third_info]
+                    data=['r_third_base',parseInt(this.user_result.r_third_base),'r_third_expent',parseInt(this.user_result.r_third_expent),'r_third_info',this.user_result.r_third_info]
                     break;
             }
             this.$axios({
-                url:'http://localhost:3000/api/Inter/update_user_result',
+                url:'http://111.230.128.231/api/Inter/update_user_result',
                 method:'post',
                 data:{
                     u_number:this.params_data.u_number,
@@ -138,24 +140,22 @@ export default {
                         message: '提交成功',
                         type: 'success'
                     });
-                    this._id=1
+                    this.$router.push({path:'/inter/interview'})
                 }
             }).catch(res=>{
-                console.log(res.data);
+                
             })
         }
     },
-    beforeRouteLeave(from,to,next){
-        if(!this._id&&from.path!='/inter/interview_result'){
+    beforeDestroy(){
+        console.log(this.flag,'---',this.params_data.u_status)
+        if(this.flag==0&&this.params_data.u_status<4){
             this.$axios({
-                url:'http://localhost:3000/api/Inter/goBack_user_status',
+                url:'http://111.230.128.231/api/Inter/goBack_user_status',
                 method:'post',
-                data:{u_number:this.params_data.u_number}
-            }).then(res=>{
-                console.log(res.data);
+                data:{u_number:this.params_data.u_number,u_status:2}
             })
-        };
-        next()
+        }
     }
 }
 </script>

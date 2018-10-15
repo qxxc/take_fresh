@@ -55,15 +55,14 @@
     },
     methods: {
       handleEdit(index, row) {
-        if(sessionStorage.getItem('id')){
+        if(sessionStorage.getItem('_id')){
             var rows=row
             this.$router.push({name:'interviewing',params:row});
             this.$axios({
-                url:'http://localhost:3000/api/Inter/change_user_status',
+                url:'http://111.230.128.231/api/Inter/change_user_status',
                 method:'post',
-                data:{u_number:row.u_number}
+                data:{u_status:3,u_number:row.u_number}
             }).then(res=>{
-                console.log(res.data)
             })
         }else{
             this.$message({
@@ -74,9 +73,14 @@
       },
       get_user_wating(){
           this.$axios({
-            url:'http://localhost:3000/api/Inter/get_user_waiting',
+            url:'http://111.230.128.231/api/Inter/get_user_waiting',
             method:'get'
             }).then(res=>{
+            if(sessionStorage.getItem('I_group')){
+                res.data=res.data.filter((item,index,array)=>{
+                    return item.g_name==sessionStorage.getItem('I_group');
+                })
+            }
             res.data.forEach((item,index,array)=>{
                 switch (item.u_count) {
                     case 0:
@@ -99,7 +103,6 @@
                 this.tableData=res.data;
             }
         }).catch(res=>{
-            console.log(res.data);
         })
       }
     }

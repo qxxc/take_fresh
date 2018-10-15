@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="back" style="margin-top:20px;background-image: url(http://localhost:3000/inter.jpg);"></div>
+        <div class="back" style="margin-top:20px;background-image: url(http://111.230.128.231/inter.jpg);"></div>
         <div class="header">
             <el-menu style="min-width:1000px;padding-left:100px" router :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
                 <el-menu-item index="1" :route="{ path:'/inter' }">签到队列</el-menu-item>
@@ -8,7 +8,7 @@
                 <el-menu-item index="3" :route="{ path:'/inter/interview_result' }">面试结果</el-menu-item>
                 <p style="margin-right:10px;float:right" @click="chang_login" v-if="is_Name">登陆</p>
                 <p style="float:right" @click="chang_register" v-if="is_Name">注册</p>
-                <p style="float:right"  v-if="!is_Name">你好，{{name}}</p>
+                <p style="float:right"  v-if="!is_Name" @click="login_out">你好，{{name}}</p>
             </el-menu>
         </div>
         <div class="body">
@@ -19,7 +19,7 @@
         <div class="fade" v-if="login"></div>
         <div class="succ-pop" style="height:260px;margin-top:-130px" v-if="login">
             <h3 class="title">
-                <h4>ACAT</h4>
+                <h4 style="margin-top:10px">ACAT</h4>
                 <i class="el-icon-close" @click="remove_login"></i>
             </h3>
             <div class="login_body">
@@ -31,7 +31,7 @@
         <div class="fade" v-if="register"></div>
         <div class="succ-pop" v-if="register">
             <h3 class="title">
-                <h4>ACAT</h4>
+                <h4 style="margin-top:10px">ACAT</h4>
                 <i class="el-icon-close" @click="remove_register"></i>
             </h3>
             <div class="login_body">
@@ -76,36 +76,47 @@ export default {
         };
     },
     created(){
-        if(sessionStorage.getItem('id')){
+        if(sessionStorage.getItem('_id')){
             this.is_Name=false;
-            this.name=sessionStorage.getItem('name');
+            this.name=sessionStorage.getItem('_name');
         }
     },
     methods: {
-        handleSelect(key, keyPath) {
-            console.log(1)
+        handleSelect(key, keyPath) {},
+        login_out(){
+            sessionStorage.clear();
+            this.is_Name=true;
+            this.name=''
         },
         chang_login(){
             this.login=!this.login
         },
         login_submit(){
+            var data={
+                username:this.form.username,
+                password:this.$md5(this.form.password)
+            }
             this.$axios({
-                url:'http://localhost:3000/api/Inter/login_inter',
+                url:'http://111.230.128.231/api/Inter/login_inter',
                 method:'post',
-                data:this.form
+                data:data
             }).then(res=>{
-                if(res.data!='0'){
+                if(res.data!='0'&&res.data!='-1'){
                     this.remove_login()
                     this.is_Name=false
                     this.name=res.data.name;
-                    sessionStorage.setItem('id',res.data.I_id)
-                    sessionStorage.setItem('name',res.data.name)
-                }else{
+                    sessionStorage.setItem('_id',res.data.I_id)
+                    sessionStorage.setItem('_name',res.data.name)
+                    sessionStorage.setItem('I_group',res.data.I_group)
+                }
+                else if(res.data=='-1'){
+                    this.$message({message:'无权登陆',type:'warning'});
+                }
+                else{
                     this.$message.error('密码错误'); 
                 }
                 
             }).catch(res=>{
-                console.log(res.data);
             })
         },
         remove_login(){
@@ -120,15 +131,23 @@ export default {
         },
         register_submit(){
             var date=new Date();
+            var data={
+                username:this.formRegister.username,
+                password:this.formRegister.password,
+                name:this.formRegister.name,
+                term:this.formRegister.term,
+                group:this.formRegister.group,
+            }
+            data.password=this.$md5(this.formRegister.password)
             if(date.getMonth()+1>8){
-                this.formRegister.term=date.getFullYear()
+                data.term=date.getFullYear()
             }else{
-                this.formRegister.term=date.getFullYear()-1
+                data.term=date.getFullYear()-1
             }
             this.$axios({
-                url:'http://localhost:3000/api/Inter/register_submit',
+                url:'http://111.230.128.231/api/Inter/register_submit',
                 method:'post',
-                data:this.formRegister
+                data:data
             }).then(res=>{
                 if(res.data){
                     this.$message({
@@ -138,7 +157,6 @@ export default {
                     this.remove_register()
                 }
             }).catch(res=>{
-                console.log(res.data);
             })
         },
         remove_register(){

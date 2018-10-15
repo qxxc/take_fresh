@@ -37,20 +37,23 @@ export default {
         login(){
             if(this.form.u_number&&this.form.u_password){
                 this.$axios({
-                    url:'http://localhost:3000/api/user/user_login',
+                    url:'http://111.230.128.231/api/user/user_login',
                     method:"post",
                     data:{
                         u_number:this.form.u_number,
                         u_password:this.$md5(this.form.u_password)
                     }
                 }).then(res=>{
-                    if(res.data.status){
-                        if(!res.data.u_status){
+                    if(res.data.status=='1'){
+                        if(res.data.u_status==0){
                             sessionStorage.setItem('u_number',this.form.u_number);
                             this.$router.push({path:'/user/enter'});
                         }else{
+                            sessionStorage.setItem('u_number',this.form.u_number);
                             this.$router.push({path:'/user/information'});
                         }
+                    }else if (res.data='undefined'){
+                        this.$message.error('用户不存在');
                     }else{
                         this.$message.error('密码错误');
                     }

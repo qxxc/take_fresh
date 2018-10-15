@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <p style="font-size:25px;">活动详情</p>
+            <p style="font-size:25px;margin-bottom:10px">活动详情</p>
         </div>
         <div>
             <el-table :data="tableData"  style="width: 100%">
@@ -36,7 +36,7 @@
                             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">结束</el-button>
                         </div>
                         <div v-else>
-                            <el-button size="mini" @click="see(scope.$index, scope.row)">查看</el-button>
+                            <el-button size="mini" @click="see()">不可操作</el-button>
                         </div>
                     </template>
                 </el-table-column>
@@ -54,7 +54,9 @@ export default {
     },
     methods:{
         see(index,row){
-            this.$router.push({path:'/admin/home/a',query:{id:row.A_term}});
+            this.$alert('活动都结束了，你还想干啥？', '提示', {
+                confirmButtonText: '确定',
+            });
         },
         handleEdit(index, row) {
             var obj=this;
@@ -66,9 +68,8 @@ export default {
                     date1:new Date(),
                     A_status:1
                 }
-                console.log(data);
                 this.$axios({
-                    url:'http://localhost:3000/api/Admin/begin_action',
+                    url:'http://111.230.128.231/api/Admin/begin_action',
                     method:'post',
                     data:data
                 }).then((res)=>{
@@ -83,7 +84,6 @@ export default {
                         obj.$message.error('开启活动失败')
                     }
                 }).catch((res)=>{
-                    console.log(res);
                 })
             }
         },
@@ -97,9 +97,8 @@ export default {
                     date1:new Date(),
                     A_status:2
                 }
-                console.log(data);
                 this.$axios({
-                    url:'http://localhost:3000/api/Admin/end_action',
+                    url:'http://111.230.128.231/api/Admin/end_action',
                     method:'post',
                     data:data
                 }).then((res)=>{
@@ -115,7 +114,6 @@ export default {
                         obj.$message.error('结束活动失败')
                     }
                 }).catch((res)=>{
-                    console.log(res);
                 })
             }
         }
@@ -123,7 +121,7 @@ export default {
     created(){
         var obj=this;
         this.$axios({
-            url:'http://localhost:3000/api/Admin/select_action',
+            url:'http://111.230.128.231/api/Admin/select_action',
             method:'get',
         }).then((res)=>{
             res.data.map((item,index,input)=>{
@@ -153,7 +151,6 @@ export default {
             });
             obj.tableData=res.data;
         }).catch((res)=>{
-            console.log(res);
         })
     },
 }

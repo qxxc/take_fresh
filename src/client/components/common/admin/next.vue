@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <p style="font-size:25px;">新时代的传承</p>
+            <p style="font-size:25px;margin-bottom:10px">新时代的传承</p>
         </div>
         <div class="body" v-if="choose">
             <p style="font-size:23px;">老一辈的见证</p>
@@ -170,14 +170,13 @@ export default {
         if(flag==1){
             data={
                 username:this.form.a_number,
-                password:this.form.a_password
+                password:this.$md5(this.form.password)
             }
             this.$axios({
                 method:'post',
-                url:'http://localhost:3000/api/Admin/select_admin',
+                url:'http://111.230.128.231/api/Admin/select_admin',
                 data:data
             }).then((res)=>{
-                console.log(res.data);
                 if(res.data!='0'&&res.data!='-1'){
                     obj.choose=false;
                 }else if(res.data=='0'){
@@ -186,10 +185,10 @@ export default {
                     this.$message.error('您已无权传承');  
                 }
             }).catch((res)=>{
-                console.log(res);
             })
         }else{
             data=obj.ruleForm2;
+            data.pass=this.$md5(data.pass)
             this.$confirm('传承之后，老用户将无权登陆', '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
@@ -197,7 +196,7 @@ export default {
             }).then(() => {
                 obj.$axios({
                     method:'post',
-                    url:'http://localhost:3000/api/Admin/insert_admin',
+                    url:'http://111.230.128.231/api/Admin/insert_admin',
                     data:data
                 }).then((res)=>{
                     if(res.data!='0'||res.data!='您已无权登陆'){
@@ -208,7 +207,6 @@ export default {
                         obj.$router.push({path:'/admin/home'})
                     }
                 }).catch((res)=>{
-                    console.log(res);
                 })
             }).catch(() => {
                 this.$message({

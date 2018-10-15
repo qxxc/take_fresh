@@ -43,7 +43,6 @@ module.exports={
             var count=0;
             return function() {
                 count++;
-                console.log(req.body, req.body.length , count);
                 if(req.body.length==count){
                     res.send('1')
                 }
@@ -57,7 +56,7 @@ module.exports={
         }
     },
     getAllUser:{
-        sql:'select user.u_group,count(user.u_name) as number,group_info.g_name from user left join group_info on user.u_group=group_info.g_id where user.u_term=? group by user.u_group',
+        sql:'',
         callback(req,res,data){
             res.send(data);
         }

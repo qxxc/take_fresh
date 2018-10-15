@@ -63,15 +63,12 @@ export default {
         var data={
             date:new Date()
         }
-        console.log(data);
         this.$axios({
-            url:'http://localhost:3000/api/Admin/get_action',
+            url:'http://111.230.128.231/api/Admin/get_action',
             method:'post',
             data:data
         }).then((res)=>{
-            console.log(res.data);
         }).catch((res)=>{
-            console.log(res.data);
         })
     },
     methods:{
@@ -83,7 +80,6 @@ export default {
                 case 'b':
                     sessionStorage.clear();
                     this.$router.push({path:'/admin'})
-                    console.log('2')
                     break;
             }
         }

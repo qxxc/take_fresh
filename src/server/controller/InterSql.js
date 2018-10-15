@@ -12,7 +12,7 @@ module.exports={
         }
     },
     changeUserStatus:{
-        sql:'Update user set u_status=3 where u_number=?',
+        sql:'Update user set u_status=? where u_number=?',
         callback(req,res,data){
         }
     },
@@ -21,7 +21,7 @@ module.exports={
         }
     },
     getInterviewResult:{
-        sql:'SELECT u_number,u_name,u_class,u_sex,u_count,u_info,u_tel,u_term,u_status,ifnull(r_first_base,0)+ifnull(r_first_expent,0)+ifnull(r_second_base,0)+ifnull(r_second_expent,0)+ifnull(r_third_base,0)+ifnull(r_third_expent,0) as sum_result from user left join result on u_number=r_number where u_count=3 and u_status>=4 order by sum_result desc;',
+        sql:'SELECT u_number,u_name,u_class,u_sex,u_count,u_info,u_tel,u_term,u_status,g_name,ifnull(r_first_base,0)+ifnull(r_first_expent,0)+ifnull(r_second_base,0)+ifnull(r_second_expent,0)+ifnull(r_third_base,0)+ifnull(r_third_expent,0) as sum_result from user left join result on u_number=r_number left join group_info on user.u_group=group_info.g_id where u_count=3 and u_status>=4 order by sum_result desc;',
         callback(req,res,data){
             data.forEach((item,index,array)=>{
                 if(item.u_sex){
@@ -34,28 +34,29 @@ module.exports={
         }
     },
     goBackUserStatus:{
-        sql:'update user set u_status=2 where u_number=?',
+        sql:'update user set u_status=? where u_number=?',
         callback(req,res,data){
-            console.log(data);
             res.send('1')
         }
     },
     loginInter:{
-        sql:'select I_id,I_number,I_password,I_name from interviewer where I_number=?',
+        sql:'select I_id,I_number,I_password,I_name,I_status,g_name from interviewer left join group_info on interviewer.I_group=group_info.g_id where I_number=?',
         callback(req,res,data){
-            console.log(data)
-            if (req.body.username == data[0].I_number && req.body.password == data[0].I_password){
+            if(req.body.username == data[0].I_number && req.body.password == data[0].I_password && data[0].I_status>0){
                 res.send({
-                    username:data[0].I_number,
-                    name:data[0].I_name
+                    I_id:data[0].I_id,
+                    name:data[0].I_name,
+                    I_group: data[0].g_name
                 })
-            }else{
+            }else if(req.body.username == data[0].I_number && req.body.password == data[0].I_password){
+                res.send('-1')
+            }else {
                 res.send('0');
             }
         }
     },
     registerSubmit:{
-        sql:'insert interviewer(I_number,I_password,I_name,I_term,I_group) values(?,?,?,?,?)',
+        sql:'insert interviewer values(null,?,?,?,?,?,?)',
         callback(req,res,data){
             res.send('1');
         }

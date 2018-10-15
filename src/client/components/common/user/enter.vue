@@ -4,7 +4,7 @@
         <div class="box second vertical animated zoomIn yourElement" style="animation-delay:300ms;" @click="enter(4,'机器学习')">机器学习</div>
         <div class="box third vertical animated zoomIn yourElement" style="animation-delay:400ms;" @click="enter(1,'前端')">前端</span></div>
         <div class="fourth animated zoomIn yourElement" style="animation-delay:500ms;">
-            <img style="height:100%;border-radius:10px;" src="http://localhost:3000/timg.jpg">
+            <img style="height:100%;border-radius:10px;" src="http://111.230.128.231/timg.jpg">
         </div>
         <div class="box fifth horizontal animated zoomIn yourElement" style="animation-delay:600ms;"  @click="enter(3,'C++/python')">C++/python</div>
         <el-dialog title="提示" :visible.sync="dialogVisible" width="90%" >
@@ -36,7 +36,7 @@ export default {
             this.dialogVisible = false
             if(val){
                 this.$axios({
-                    url:'http://localhost:3000/api/user/user_enter',
+                    url:'http://111.230.128.231/api/user/user_enter',
                     method:'post',
                     data:{
                         u_group:this.value,

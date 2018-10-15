@@ -1,6 +1,7 @@
 <template>
     <div>
-        <el-table :data="tableData" style="width: 90%;margin:0 auto" :row-class-name="tableRowClassName">
+        <el-table ref="multipleTable" :data="tableData" style="width: 90%;margin:0 auto" :row-class-name="tableRowClassName"  tooltip-effect="dark" @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column type="index" width="50" align="center"></el-table-column>
             <el-table-column label="学号" align="center">
                 <template slot-scope="scope">
@@ -31,16 +32,16 @@
             </el-table-column>
             <el-table-column label="操作" align="center">
             <template slot-scope="scope">
-                <div v-if="scope.row.u_status!=5">
+                <div>
                     <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">查看</el-button>
-                    <el-button size="mini" @click="handleEdit1(scope.$index, scope.row)">通过</el-button>
-                </div>
-                <div v-if="scope.row.u_status==5">
-                    <span style="margin-left: 10px">已通过</span>
                 </div>
             </template>
             </el-table-column>
         </el-table>
+        <div style="margin-top: 20px;margin-left:5%">
+            <el-button type="success" @click="toggleSelection(1)">通过已选中的</el-button>
+            <el-button type="danger" @click="toggleSelection(0)">淘汰已选中的</el-button>
+        </div>
     </div>
 </template>
 
@@ -49,22 +50,70 @@ export default {
     data() {
         return {
             tableData: [],
-            _id:''
+            _id:'',
+            multipleSelection: []
         }
     },
     created(){
-        this.$axios({
-            url:'http://localhost:3000/api/Inter/get_interview_result',
-            method:'get'
-        }).then(res=>{
-            this.tableData=res.data
-        }).catch(res=>{
-            console.log(res)
-        })
+        this.get_interview_result()
     },
     methods:{
+        get_interview_result(){
+            this.$axios({
+                url:'http://111.230.128.231/api/Inter/get_interview_result',
+                method:'get',
+                params:{
+                    I_group:sessionStorage.getItem('I_group')
+                }
+            }).then(res=>{
+                if(sessionStorage.getItem('I_group')){
+                    res.data=res.data.filter((item,index,array)=>{
+                        return item.g_name==sessionStorage.getItem('I_group');
+                    })
+                }
+                this.tableData=res.data
+            })
+        },
+        handleSelectionChange(val) {
+            this.multipleSelection = val;
+        },
+        toggleSelection(val) {
+            if(sessionStorage.getItem('_id')){
+                var data=[];
+                this.multipleSelection.forEach((item,index,array)=>{
+                    if(val){
+                        data.push({
+                            u_number:item.u_number,
+                            u_status:5
+                        });
+                    }else{
+                        data.push({
+                            u_number:item.u_number,
+                            u_status:6
+                        });
+                    }
+                })
+                this.$axios({
+                    url:'http://111.230.128.231/api/Inter/allow_user',
+                    method:'post',
+                    data:{
+                        data:data
+                    }
+                }).then(res=>{
+                    this.$message({
+                        message: '操作成功',
+                        type: 'success'
+                    });
+                })
+            }else{
+                this.$message({
+                    message: '请登录',
+                    type: 'warning'
+                });   
+            }
+        },
         handleEdit(index, row) {
-            if(sessionStorage.getItem('id')){
+            if(sessionStorage.getItem('_id')){
                 this.$router.push({name:'interviewing',params:row});
             }else{
             this.$message({
@@ -74,20 +123,8 @@ export default {
         }
         },
         handleEdit1(index,row){
-            if(sessionStorage.getItem('id')){
-                this.$axios({
-                    url:'http://localhost:3000/api/Inter/allow_user',
-                    method:'post',
-                    data:{
-                        u_number:row.u_number
-                    }
-                }).then(res=>{
-                    this.$message({
-                        message: '通过成功',
-                        type: 'success'
-                    });
-                    this.tableData[index].u_status=5
-                })
+            if(sessionStorage.getItem('_id')){
+                
             }else{
             this.$message({
                 message: '请登录',

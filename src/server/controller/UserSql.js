@@ -1,6 +1,6 @@
 module.exports={
     userResgiter:{
-        sql:'insert into user values(?,?,?,?,?,?,?,?,?,?,?)',
+        sql:'insert into user values(null,?,?,?,?,?,?,?,?,?,?,?)',
         callback(req,res,data){
             res.send('1');
         }
@@ -14,7 +14,9 @@ module.exports={
                     status:'1'
                 })
             }else{
-                res.send('0')
+                res.send({
+                    status: '0'
+                })
             }
         }
     },
@@ -29,16 +31,43 @@ module.exports={
         }
     },
     getUserInfo:{
-        sql:'select u_number,u_name,u_class,u_tel,u_status from user where u_number=?',
+        sql:'select u_number,u_name,u_class,u_tel,u_status,u_count from user where u_number=?',
         callback(req,res,data){
             switch (data[0].u_status) {
                 case 1:
-                    data[0].u_status='等待面试'
+                    switch (data[0].u_count){
+                        case 0:
+                            data[0].u_status = '等待一面'
+                            break;
+                        case 1:
+                            data[0].u_status = '等待二面'
+                            break;
+                        case 2:
+                            data[0].u_status = '等待三面'
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (data[0].u_count) {
+                        case 0:
+                            data[0].u_status = '等待一面'
+                            break;
+                        case 1:
+                            data[0].u_status = '等待二面'
+                            break;
+                        case 2:
+                            data[0].u_status = '等待三面'
+                            break;
+                    }
                     break;
                 case 4:
-                    data[0].u_status='等待面试结果'
+                    data[0].u_status = '等待面试结果'
+                    break;
+                case 5:
+                    data[0].u_status = '已通过'
                     break;
             }
+            delete data[0].u_count
             res.send(data[0])
         }
     },

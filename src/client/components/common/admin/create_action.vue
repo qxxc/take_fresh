@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p style="font-size:25px;">创建一个新的活动</p>
+        <p style="font-size:25px;margin-bottom:10px">创建一个新的活动</p>
         <div class="body">
             <div>
                 <p style="font-size:20px;margin-left:35px">负责人资料</p>
@@ -38,7 +38,6 @@ export default {
         onSubmit() {
             var obj=this;
             var date=new Date();
-            console.log(date.getMonth());
             if( ( date.getMonth()+1 >=8 && obj.form.A_term==date.getFullYear() ) || (date.getMonth()+1<=5 && obj.form.A_term==(date.getFullYear()-1))){
                 this.$confirm('是否直接开启此次活动?', '提示', {
                     confirmButtonText: '确定',
@@ -48,7 +47,7 @@ export default {
                     obj.form.date1=new Date();
                     obj.form.A_status=1;
                     this.$axios({
-                        url:'http://localhost:3000/api/Admin/insert_action',
+                        url:'http://111.230.128.231/api/Admin/insert_action',
                         method:'post',
                         data:obj.form
                     }).then((res)=>{
@@ -64,12 +63,11 @@ export default {
                             obj.form[i]=''
                         }
                     }).catch((res)=>{
-                        console.log(res)
                     })
                 }).catch(() => {
                     obj.form.A_status=0;
                     this.$axios({
-                        url:'http://localhost:3000/api/Admin/insert_action',
+                        url:'http://111.230.128.231/api/Admin/insert_action',
                         method:'post',
                         data:obj.form
                     }).then((res)=>{
@@ -85,7 +83,6 @@ export default {
                             obj.form[i]=''
                         }
                     }).catch((res)=>{
-                        console.log(res)
                     })        
                 });
             }else{

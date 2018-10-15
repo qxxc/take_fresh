@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p style="font-size:25px;">个人资料</p>
+        <p style="font-size:25px;margin-bottom:10px">个人资料</p>
         <div class="body">
             <div v-if="choose_status">
                 <el-row v-for="(value,key) in info">
@@ -42,7 +42,7 @@
 export default {
     created(){
         this.$axios({
-            url:'http://localhost:3000/api/Admin/get_admin_info',
+            url:'http://111.230.128.231/api/Admin/get_admin_info',
             method:'post',
             data:{
                 id:sessionStorage.getItem('id')
@@ -50,7 +50,7 @@ export default {
         }).then(res=>{
             this.info=res.data;
         }).catch(res=>{
-            console.log(res)
+            
         })
     },
     data(){
@@ -189,8 +189,9 @@ export default {
                     data[i]=obj.ruleForm2[i] 
                 }
             }
+            data.a_password=this.$md5(data.a_password)
             this.$axios({
-                url:'http://localhost:3000/api/Admin/update_admin_info',
+                url:'http://111.230.128.231/api/Admin/update_admin_info',
                 method:'post',
                 data:data
             }).then(res=>{
@@ -201,7 +202,7 @@ export default {
                     })
                 }
             }).catch(res=>{
-                console.log(res.data);
+               
             })
         }
     }

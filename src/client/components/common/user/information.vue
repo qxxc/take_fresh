@@ -5,7 +5,7 @@
             <p>{{item.val}}</p>
         </div>
         <p style="text-align:center" >
-            <button class="submit" @click="sign_in">现场签到</button>
+            <button class="submit" :disabled='disabled' @click="sign_in">现场签到</button>
         </p>
     </div>
 </template>
@@ -20,12 +20,13 @@ export default {
                 {key:'班级',val:''},
                 {key:'联系方式',val:''},
                 {key:'状态',val:''},
-            ]
+            ],
+            disabled:''
         }
     },
     created(){
         this.$axios({
-            url:'http://localhost:3000/api/user/get_user_info',
+            url:'http://111.230.128.231/api/user/get_user_info',
             method:'get',
             params:{
                 u_number:sessionStorage.getItem('u_number')
@@ -35,14 +36,17 @@ export default {
             for(let i=0;i<this.tableData.length;i++){
                 this.tableData[i].val=data[i];
             }
-            console.log(res.data)
-            console.log(this.tableData)
+            if (res.data.u_status.substr(0,2)=='等待'||res.data.u_status.substr(-3,3)!='未通过'||res.data.u_status=='三面通过') {
+                this.disabled=false;
+            }else{
+                this.disabled=true
+            }
         })
     },
     methods:{
         sign_in(){
             this.$axios({
-                url:'http://localhost:3000/api/user/sign_in',
+                url:'http://111.230.128.231/api/user/sign_in',
                 method:'post',
                 data:{
                     u_number:sessionStorage.getItem('u_number')
@@ -53,6 +57,7 @@ export default {
                         type:'success',
                         message:'签到成功'
                     })
+                    this.disabled=true;
                 }
             })
         }

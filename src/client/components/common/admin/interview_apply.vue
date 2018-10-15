@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div>
+            <p style="font-size:25px;margin-bottom:10px">面试官申请列表</p>
+        </div>
         <el-table
               ref="multipleTable"
               :data="tableData3"
@@ -38,11 +41,10 @@
     created(){
       this.$axios({
         method:'get',
-        url:'http://localhost:3000/api/Admin/get_inter_apply'
+        url:'http://111.230.128.231/api/Admin/get_inter_apply'
       }).then((res)=>{
         this.tableData3=res.data
       }).catch((res)=>{
-        console.log(res.data);
       })
     },
     data() {
@@ -62,7 +64,7 @@
           });
         });
         this.$axios({
-          url:'http://localhost:3000/api/Admin/chang_I_status',
+          url:'http://111.230.128.231/api/Admin/chang_I_status',
           method:'post',
           data:array
         }).then(res=>{
