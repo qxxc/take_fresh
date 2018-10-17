@@ -59,7 +59,7 @@
             var rows=row
             this.$router.push({name:'interviewing',params:row});
             this.$axios({
-                url:'http://111.230.128.231/api/Inter/change_user_status',
+                url:'http://localhost:3000/api/Inter/change_user_status',
                 method:'post',
                 data:{u_status:3,u_number:row.u_number}
             }).then(res=>{
@@ -73,7 +73,7 @@
       },
       get_user_wating(){
           this.$axios({
-            url:'http://111.230.128.231/api/Inter/get_user_waiting',
+            url:'http://localhost:3000/api/Inter/get_user_waiting',
             method:'get'
             }).then(res=>{
             if(sessionStorage.getItem('I_group')){

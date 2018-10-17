@@ -4,7 +4,7 @@
             <div class="top">
                 <h4>面试者资料</h4>
                 <div>
-                    <img src="http://111.230.128.231/head.jpg" alt="">
+                    <img src="http://localhost:3000/head.jpg" alt="">
                     <span>{{params_data.u_name}}</span>
                 </div>
             </div>
@@ -91,7 +91,7 @@ export default {
     created(){
         var that=this;
         this.$axios({
-            url:'http://111.230.128.231/api/Inter/get_user_result',
+            url:'http://localhost:3000/api/Inter/get_user_result',
             method:'get',
             params:{
                 u_number:that.$route.params.u_number
@@ -128,7 +128,7 @@ export default {
                     break;
             }
             this.$axios({
-                url:'http://111.230.128.231/api/Inter/update_user_result',
+                url:'http://localhost:3000/api/Inter/update_user_result',
                 method:'post',
                 data:{
                     u_number:this.params_data.u_number,
@@ -148,10 +148,9 @@ export default {
         }
     },
     beforeDestroy(){
-        console.log(this.flag,'---',this.params_data.u_status)
         if(this.flag==0&&this.params_data.u_status<4){
             this.$axios({
-                url:'http://111.230.128.231/api/Inter/goBack_user_status',
+                url:'http://localhost:3000/api/Inter/goBack_user_status',
                 method:'post',
                 data:{u_number:this.params_data.u_number,u_status:2}
             })

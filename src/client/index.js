@@ -10,7 +10,7 @@ import vue_socket from 'vue-socket.io'
 import md5 from 'js-md5';
 Vue.prototype.$echarts = echarts 
 Vue.use(ElementUI);
-Vue.use(vue_socket,'http://111.230.128.231:81')
+Vue.use(vue_socket,'http://localhost:3001')
 Vue.config.debug = true
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios

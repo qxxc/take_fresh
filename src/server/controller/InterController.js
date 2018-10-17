@@ -14,11 +14,8 @@ const InterCtrl={
     },
     updateUserResult(req,res){
         req.body.val.push(req.body.u_number);
-        var arr = req.body.val;
-        var status=1
-        if(req.body.val[0]=='r_third_base'){
-            status=4;
-        }
+        var arr = req.body.val
+        var status=4;
         var data=[];
         data.push(status,req.body.u_number)
         var sql_arr = [arr[1], arr[3], arr[5], arr[6]]
@@ -32,7 +29,7 @@ const InterCtrl={
         })
     },
     getInterviewResult(req,res){
-        InterModel.test(req, res, sql.getInterviewResult.sql, [], sql.getInterviewResult.callback);
+       	InterModel.test(req, res, sql.getInterviewResult.sql,[], sql.getInterviewResult.callback);
     },
     goBackUserStatus(req,res){
         InterModel.test(req, res, sql.goBackUserStatus.sql, [req.body.u_status,req.body.u_number], sql.goBackUserStatus.callback);
@@ -46,7 +43,9 @@ const InterCtrl={
         InterModel.test(req, res, sql.registerSubmit.sql, data, sql.registerSubmit.callback)
     },
     allowUser(req,res){
-        InterModel.test(req, res, sql.allowUser.sql, [req.body.u_number], sql.allowUser.callback);
+	req.body.data.forEach((item,index,array)=>{
+		InterModel.test(req, res, sql.allowUser.sql, [item.u_status,item.u_number], sql.allowUser.callback);
+	}) 
     }
 }
 

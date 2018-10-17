@@ -82,7 +82,7 @@ export default {
                         this.form.u_term=date.getFullYear()
                     }
                     this.$axios({
-                        url:'http://111.230.128.231/api/user/user_resgiter',
+                        url:'http://localhost:3000/api/user/user_resgiter',
                         method:'post',
                         data:this.form
                     }).then(res=>{

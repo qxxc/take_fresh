@@ -64,7 +64,7 @@ export default {
             date:new Date()
         }
         this.$axios({
-            url:'http://111.230.128.231/api/Admin/get_action',
+            url:'http://localhost:3000/api/Admin/get_action',
             method:'post',
             data:data
         }).then((res)=>{

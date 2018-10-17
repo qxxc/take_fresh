@@ -60,7 +60,7 @@ export default {
     methods:{
         get_interview_result(){
             this.$axios({
-                url:'http://111.230.128.231/api/Inter/get_interview_result',
+                url:'http://localhost:3000/api/Inter/get_interview_result',
                 method:'get',
                 params:{
                     I_group:sessionStorage.getItem('I_group')
@@ -94,7 +94,7 @@ export default {
                     }
                 })
                 this.$axios({
-                    url:'http://111.230.128.231/api/Inter/allow_user',
+                    url:'http://localhost:3000/api/Inter/allow_user',
                     method:'post',
                     data:{
                         data:data

@@ -42,7 +42,7 @@
 export default {
     created(){
         this.$axios({
-            url:'http://111.230.128.231/api/Admin/get_admin_info',
+            url:'http://localhost:3000/api/Admin/get_admin_info',
             method:'post',
             data:{
                 id:sessionStorage.getItem('id')
@@ -191,7 +191,7 @@ export default {
             }
             data.a_password=this.$md5(data.a_password)
             this.$axios({
-                url:'http://111.230.128.231/api/Admin/update_admin_info',
+                url:'http://localhost:3000/api/Admin/update_admin_info',
                 method:'post',
                 data:data
             }).then(res=>{

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="left">
-            <img src="http://111.230.128.231/admin_home.png" class="home_img">
+            <img src="http://localhost:3000/admin_home.png" class="home_img">
         </div>
         <div class="right"></div>
         <div class="right">
@@ -33,7 +33,7 @@ export default {
             var go=this;
             this.$axios({
                 method:'post',
-                url:'http://111.230.128.231/api/Admin/select_admin',
+                url:'http://localhost:3000/api/Admin/select_admin',
                 data:data
             }).then((res)=>{
                 if(res.data!='0'&&res.data!='-1'){

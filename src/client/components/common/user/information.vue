@@ -26,7 +26,7 @@ export default {
     },
     created(){
         this.$axios({
-            url:'http://111.230.128.231/api/user/get_user_info',
+            url:'http://localhost:3000/api/user/get_user_info',
             method:'get',
             params:{
                 u_number:sessionStorage.getItem('u_number')
@@ -46,7 +46,7 @@ export default {
     methods:{
         sign_in(){
             this.$axios({
-                url:'http://111.230.128.231/api/user/sign_in',
+                url:'http://localhost:3000/api/user/sign_in',
                 method:'post',
                 data:{
                     u_number:sessionStorage.getItem('u_number')
