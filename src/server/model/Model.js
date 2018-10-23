@@ -11,6 +11,7 @@ const UserModel = {
                     if (err) {
                         console.log(err);
                         res.send('0');
+                        
                     } else {
                         callback(req,res,data);
                         connection.release();

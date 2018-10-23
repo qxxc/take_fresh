@@ -69,7 +69,7 @@ export default {
                     A_status:1
                 }
                 this.$axios({
-                    url:'http://localhost:3000/api/Admin/begin_action',
+                    url:'http://111.230.128.231/api/Admin/begin_action',
                     method:'post',
                     data:data
                 }).then((res)=>{
@@ -98,7 +98,7 @@ export default {
                     A_status:2
                 }
                 this.$axios({
-                    url:'http://localhost:3000/api/Admin/end_action',
+                    url:'http://111.230.128.231/api/Admin/end_action',
                     method:'post',
                     data:data
                 }).then((res)=>{
@@ -121,7 +121,7 @@ export default {
     created(){
         var obj=this;
         this.$axios({
-            url:'http://localhost:3000/api/Admin/select_action',
+            url:'http://111.230.128.231/api/Admin/select_action',
             method:'get',
         }).then((res)=>{
             res.data.map((item,index,input)=>{

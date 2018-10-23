@@ -47,7 +47,7 @@ export default {
                     obj.form.date1=new Date();
                     obj.form.A_status=1;
                     this.$axios({
-                        url:'http://localhost:3000/api/Admin/insert_action',
+                        url:'http://111.230.128.231/api/Admin/insert_action',
                         method:'post',
                         data:obj.form
                     }).then((res)=>{
@@ -67,7 +67,7 @@ export default {
                 }).catch(() => {
                     obj.form.A_status=0;
                     this.$axios({
-                        url:'http://localhost:3000/api/Admin/insert_action',
+                        url:'http://111.230.128.231/api/Admin/insert_action',
                         method:'post',
                         data:obj.form
                     }).then((res)=>{

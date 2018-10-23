@@ -1,6 +1,6 @@
 module.exports={
     userResgiter:{
-        sql:'insert into user values(null,?,?,?,?,?,?,?,?,?,?,?)',
+        sql:'insert into user values(null,?,?,?,?,?,?,?,?,?,?)',
         callback(req,res,data){
 	if(data){           
 	 	res.send('1');
@@ -9,22 +9,13 @@ module.exports={
 		res.send('0')
 	}
     }},
-    userLogin:{ 
-        sql:'select u_password,u_status from user where u_number=?',
+    userLogin:{
+        sql:'select u_status from user where u_number=?',
         callback(req,res,data){
-	    if(data.length==0){
-		    res.send('undefined');
-		    return ;
-        }
-	    if (req.body.u_password == data[0].u_password){
-                res.send({
-                    u_status: data[0].u_status,
-                    status:'1'
-                })
+            if(data.length==1){
+                res.send(data[0])
             }else{
-                res.send({
-                    status: '0'
-                })
+                res.send('-1');
             }
         }
     },

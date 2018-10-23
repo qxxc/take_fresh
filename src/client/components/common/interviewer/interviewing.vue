@@ -4,7 +4,7 @@
             <div class="top">
                 <h4>面试者资料</h4>
                 <div>
-                    <img src="http://localhost:3000/head.jpg" alt="">
+                    <img src="http://111.230.128.231/head.jpg" alt="">
                     <span>{{params_data.u_name}}</span>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                     <dd v-if="result_count>0">面试官评价：{{user_result.r_first_info}}</dd>
                 </dl>
             </div>
-            <div v-if="result_count>=1&&params_data.u_status<4">
+            <div v-if="result_count>=1">
                 <dl>
                     <dt>第二次面试</dt>
                     <div style="padding:0" v-if="result_count==1">
@@ -61,7 +61,7 @@
                     <dd v-if="result_count>1">面试官评价：{{user_result.r_second_info}}</dd>
                 </dl>
             </div>
-            <div v-if="result_count>=2&&params_data.u_status<4">
+            <div v-if="result_count>=2">
                 <dl>
                     <dt>第三次面试</dt>
                     <div style="padding:0" v-if="result_count==2">
@@ -69,8 +69,8 @@
                         <dd style="display: flex;align-items:top;justify-content:center;margin-top:10px">面试官评价：<textarea v-model='user_result.r_third_info' cols="50" rows="5" style="font-size:14px"></textarea></dd>
                         <dd><input type="button" value="提交" @click="submit_result(3)" class="submit"></dd>
                     </div>
-                    <dd v-if="result_count>2&&params_data.u_status<4"><span>基本打分：{{user_result.r_third_base}}</span><span style="margin-left:12px">拓展打分：{{user_result.r_third_expent}}</span></dd>
-                    <dd v-if="result_count>2&&params_data.u_status<4">面试官评价：{{user_result.r_third_info}}</dd>
+                    <dd v-if="result_count>2"><span>基本打分：{{user_result.r_third_base}}</span><span style="margin-left:12px">拓展打分：{{user_result.r_third_expent}}</span></dd>
+                    <dd v-if="result_count>2">面试官评价：{{user_result.r_third_info}}</dd>
                 </dl>
             </div>
         </div>
@@ -91,7 +91,7 @@ export default {
     created(){
         var that=this;
         this.$axios({
-            url:'http://localhost:3000/api/Inter/get_user_result',
+            url:'http://111.230.128.231/api/Inter/get_user_result',
             method:'get',
             params:{
                 u_number:that.$route.params.u_number
@@ -128,7 +128,7 @@ export default {
                     break;
             }
             this.$axios({
-                url:'http://localhost:3000/api/Inter/update_user_result',
+                url:'http://111.230.128.231/api/Inter/update_user_result',
                 method:'post',
                 data:{
                     u_number:this.params_data.u_number,
@@ -150,7 +150,7 @@ export default {
     beforeDestroy(){
         if(this.flag==0&&this.params_data.u_status<4){
             this.$axios({
-                url:'http://localhost:3000/api/Inter/goBack_user_status',
+                url:'http://111.230.128.231/api/Inter/goBack_user_status',
                 method:'post',
                 data:{u_number:this.params_data.u_number,u_status:2}
             })

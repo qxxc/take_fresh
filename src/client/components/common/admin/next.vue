@@ -174,7 +174,7 @@ export default {
             }
             this.$axios({
                 method:'post',
-                url:'http://localhost:3000/api/Admin/select_admin',
+                url:'http://111.230.128.231/api/Admin/select_admin',
                 data:data
             }).then((res)=>{
                 if(res.data!='0'&&res.data!='-1'){
@@ -196,7 +196,7 @@ export default {
             }).then(() => {
                 obj.$axios({
                     method:'post',
-                    url:'http://localhost:3000/api/Admin/insert_admin',
+                    url:'http://111.230.128.231/api/Admin/insert_admin',
                     data:data
                 }).then((res)=>{
                     if(res.data!='0'||res.data!='您已无权登陆'){

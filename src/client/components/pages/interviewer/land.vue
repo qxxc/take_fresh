@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="back" style="margin-top:20px;background-image: url(http://localhost:3000/inter.jpg);"></div>
+        <div class="back" style="margin-top:20px;background-image: url(http://111.230.128.231/inter.jpg);"></div>
         <div class="header">
             <el-menu style="min-width:1000px;padding-left:100px" router :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
                 <el-menu-item index="1" :route="{ path:'/inter' }">签到队列</el-menu-item>
@@ -97,7 +97,7 @@ export default {
                 password:this.$md5(this.form.password)
             }
             this.$axios({
-                url:'http://localhost:3000/api/Inter/login_inter',
+                url:'http://111.230.128.231/api/Inter/login_inter',
                 method:'post',
                 data:data
             }).then(res=>{
@@ -145,7 +145,7 @@ export default {
                 data.term=date.getFullYear()-1
             }
             this.$axios({
-                url:'http://localhost:3000/api/Inter/register_submit',
+                url:'http://111.230.128.231/api/Inter/register_submit',
                 method:'post',
                 data:data
             }).then(res=>{

@@ -1,12 +1,12 @@
 <template>
     <div class="body">
+        <div class="back" style="background-image: url(http://111.230.128.231/26875.jpg);"></div>
+        <h1 style="text-align:center;margin-top:1.2em;color:#5A8796">计算机应用技术协会</h1>
         <div class="box" v-for="item of tableData">
             <span>{{item.key}}</span>
             <p>{{item.val}}</p>
         </div>
-        <p style="text-align:center" >
-            <button class="submit" :disabled='disabled' @click="sign_in">现场签到</button>
-        </p>
+
     </div>
 </template>
 
@@ -26,7 +26,7 @@ export default {
     },
     created(){
         this.$axios({
-            url:'http://localhost:3000/api/user/get_user_info',
+            url:'http://111.230.128.231/api/user/get_user_info',
             method:'get',
             params:{
                 u_number:sessionStorage.getItem('u_number')
@@ -43,25 +43,6 @@ export default {
             }
         })
     },
-    methods:{
-        sign_in(){
-            this.$axios({
-                url:'http://localhost:3000/api/user/sign_in',
-                method:'post',
-                data:{
-                    u_number:sessionStorage.getItem('u_number')
-                }
-            }).then(res=>{
-                if(res.data){
-                    this.$message({
-                        type:'success',
-                        message:'签到成功'
-                    })
-                    this.disabled=true;
-                }
-            })
-        }
-    }
 }
 </script>
 
@@ -82,15 +63,18 @@ export default {
     p
         display inline-block
         width 14.5em
-.submit
-    margin 1em auto 
-    color #fff
-    background-color transparent
-    width 90%
-    border 1px solid #dcdfe6
-    border-color #409EFF
-    font-size 1.5em
-    height 2.6em
-    text-align center
-    border-radius 4px 
+.back
+    position fixed
+    top 0
+    left 0
+    width 100%
+    height 100%
+    z-index -10
+    zoom 1
+    background-color #fff
+    background-repeat no-repeat
+    background-size cover
+    -webkit-background-size cover
+    -o-background-size cover
+    background-position center 0
 </style>
